@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>V23 Togglebox</title>
+	<link rel="stylesheet" href="styles.css">
+	<script src="../v23-togglebox.js"></script>
+</head>
+<body>
+	<h4>Así funciona por defecto:</h4>
+	<div id="elementID" class="v23-togglebox tab-style1">
+		<div class="v23-togglebox__nav">
+			<a class="v23-togglebox__btn" data-boxid="#box7">Primer Item</a>
+			<a class="v23-togglebox__btn" data-boxid="#box8">Segundo Item</a>
+			<a class="v23-togglebox__btn" data-boxid="#box9">Tercer Item</a>
+		</div>
+		<div class="v23-togglebox__items">
+			<div id="box7" class="v23-togglebox__item">
+				<div class="componente">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis explicabo expedita tempore a voluptatum fugiat nemo! Dolores debitis architecto ratione sit, molestias reiciendis corrupti rem. Quasi assumenda quidem, officiis consectetur?</div>
+			</div>
+			<div id="box8" class="v23-togglebox__item">
+				<div class="componente">Dolores debitis architecto ratione sit, molestias reiciendis corrupti rem. Quasi assumenda quidem, officiis consectetur? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis explicabo expedita tempore a voluptatum fugiat nemo!</div>
+			</div>
+			<div id="box9" class="v23-togglebox__item">
+				<div class="componente">Reiciendis corrupti rem. Quasi assumenda quidem, officiis consectetur? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis explicabo expedita tempore a voluptatum fugiat nemo! Dolores debitis architecto ratione sit, molestias ret.</div>
+			</div>
+		</div>
+	</div>
+
+	<h4>moviltemplate y desktoptemplate son tab</h4>
+	<div id="elementID" class="v23-togglebox tab-style1" data-moviltemplate="tab" data-desktoptemplate="tab">
+		<div class="v23-togglebox__nav">
+			<a class="v23-togglebox__btn" data-boxid="#box1">Primer Item</a>
+			<a class="v23-togglebox__btn" data-boxid="#box2">Segundo Item</a>
+			<a class="v23-togglebox__btn" data-boxid="#box3">Tercer Item</a>
+		</div>
+		<div class="v23-togglebox__items">
+			<div id="box1" class="v23-togglebox__item">
+				<div class="componente">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis explicabo expedita tempore a voluptatum fugiat nemo! Dolores debitis architecto ratione sit, molestias reiciendis corrupti rem. Quasi assumenda quidem, officiis consectetur?</div>
+			</div>
+			<div id="box2" class="v23-togglebox__item">
+				<div class="componente">Dolores debitis architecto ratione sit, molestias reiciendis corrupti rem. Quasi assumenda quidem, officiis consectetur? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis explicabo expedita tempore a voluptatum fugiat nemo!</div>
+			</div>
+			<div id="box3" class="v23-togglebox__item">
+				<div class="componente">Reiciendis corrupti rem. Quasi assumenda quidem, officiis consectetur? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis explicabo expedita tempore a voluptatum fugiat nemo! Dolores debitis architecto ratione sit, molestias ret.</div>
+			</div>
+		</div>
+	</div>
+
+	<h4>moviltemplate y desktoptemplate son accordion</h4>
+	<div id="tgb2" class="v23-togglebox tab-style1" data-moviltemplate="accordion" data-desktoptemplate="accordion">
+		<div class="v23-togglebox__nav">
+			<a class="v23-togglebox__btn" data-boxid="#box4">Primer Item</a>
+			<a class="v23-togglebox__btn" data-boxid="#box5">Segundo Item</a>
+			<a class="v23-togglebox__btn" data-boxid="#box6">Tercer Item</a>
+		</div>
+		<div class="v23-togglebox__items">
+			<div id="box4" class="v23-togglebox__item">
+				<div class="componente">Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis explicabo expedita tempore a voluptatum fugiat nemo! Dolores debitis architecto ratione sit, molestias reiciendis corrupti rem. Quasi assumenda quidem, officiis consectetur?</div>
+			</div>
+			<div id="box5" class="v23-togglebox__item">
+				<div class="componente">Dolores debitis architecto ratione sit, molestias reiciendis corrupti rem. Quasi assumenda quidem, officiis consectetur? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis explicabo expedita tempore a voluptatum fugiat nemo!</div>
+			</div>
+			<div id="box6" class="v23-togglebox__item">
+				<div class="componente">Reiciendis corrupti rem. Quasi assumenda quidem, officiis consectetur? Lorem ipsum dolor sit amet consectetur, adipisicing elit. Perspiciatis explicabo expedita tempore a voluptatum fugiat nemo! Dolores debitis architecto ratione sit, molestias ret.</div>
+			</div>
+		</div>
+	</div>
+
+<script>
+V23_ToggleBox.init();
+// var el = document.getElementById('elementID');
+// V23_ToggleBox.create( el, {} );
+// if (el.dataset.desktoptemplate != undefined) options.desktopTemplate = el.dataset.desktoptemplate; 
+// if (el.dataset.moviltemplate != undefined) options.movilTemplate = el.dataset.moviltemplate;		
+</script>
+</body>
+</html>

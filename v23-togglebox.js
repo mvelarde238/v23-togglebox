@@ -21,7 +21,7 @@
 	"use strict";
 
 	var instances = [],
-		version = '4.8.23',
+		version = '5.8.23',
 		timers = {};
 
 	/**
@@ -38,7 +38,6 @@
 		if (!this._createInstance(el)) return;
 		
 		this.el = el; // root element
-		this.instance = instances.length;
 		this.currentTemplate = null;
 		this._handleOptions(options);
 
@@ -64,8 +63,20 @@
 
 	V23_ToggleBox.prototype = {
 		_handleOptions( options ){
-			this.options = options = _extend({}, options);
+			// options configured as data-attributes
+			var dataOptions = {},
+				dataHeaderHeight = this.el.dataset.headerheight,
+				dataDesktopTemplate = this.el.dataset.desktoptemplate,
+				dataMovilTemplate = this.el.dataset.moviltemplate;
 
+			if (dataDesktopTemplate != undefined) dataOptions.desktopTemplate = dataDesktopTemplate; 
+            if (dataMovilTemplate != undefined) dataOptions.movilTemplate = dataMovilTemplate;
+            if (dataHeaderHeight != undefined) dataOptions.headerHeight = dataHeaderHeight;
+
+            // dataOptions are overriddden if options arg is passed
+			this.options = options = _extend(dataOptions, options);
+
+			// defaults if no options are passed
 			var defaults = {
 				desktopTemplate : 'tab',
 				movilTemplate : 'accordion',
@@ -80,12 +91,11 @@
 		},
 		_createInstance(el){
 			for (var i = 0; i < instances.length; i++) {
-				if (instances[i] === el) {
+				if (instances[i].el === el) {
 					console.log('V23 ToggleBox Error: el elemento id:'+el.id+' | class:'+el.className+' solo puede ser instanciado una vez.');
 					return false;
 				}
 			}
-			instances.push(el);
 			return true;
 		},
 		_saveItems(){
@@ -135,7 +145,7 @@
 					}
 				};				
 			} else {
-				if (this.currentTemplate != 'accordion') {
+				if (this.currentTemplate === 'tab') {
 					_addClass(this.items[0].btn, 'active');
 					_addClass(this.items[0].box, 'active');	
 				}
@@ -186,6 +196,7 @@
 			window.addEventListener('resize', function(){
 				_waitForFinalEvent( function() {
 					if( options.movilTemplate == 'tab' && options.desktopTemplate == 'tab') return;
+					// if( options.movilTemplate === options.desktopTemplate) return;
 					that._handle_template();
 				}, timeToWaitForLast, id);
 			}, true);
@@ -285,20 +296,6 @@
 		return result;
 	};
 
-	// function _wrapAll(elementsArray, elementContainer){
-	// 	for (var ind = 0; ind < elementsArray.length; ind++) {
-	// 		elementContainer.append(elementsArray[0]);
-	// 	};
-	// };
-
-	// function _removeElementsByClass(className){
-	// 	var elements = document.getElementsByClassName(className);
-
-	// 	while(elements.length > 0){
-	// 		elements[0].parentNode.removeChild(elements[0]);
-	// 	}
-	// };
-
 	function _insertAfter(newNode, referenceNode) {
     	referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 	};
@@ -314,11 +311,27 @@
 	 * @param {Object}      [options]
 	 */
 	V23_ToggleBox.create = function (el, options) {
-		return new V23_ToggleBox(el, options);
+		var options = (options) ? options : {},
+			togglebox = new V23_ToggleBox(el, options);
+
+		if (togglebox.el) {
+			instances.push(togglebox);
+		}
+		return togglebox;
 	};
 
 	V23_ToggleBox.v = function () {
 		console.log( version );
+	};
+
+	V23_ToggleBox.init = function () {
+		var toggleboxes = document.getElementsByClassName('v23-togglebox');
+
+        for (var i = 0; i < toggleboxes.length; i++) {
+            V23_ToggleBox.create( toggleboxes[i] );
+        }
+
+        return instances;
 	};
 
 	// Export
