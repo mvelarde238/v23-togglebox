@@ -39,5 +39,5 @@ V23_ToggleBox.create(
 3.8.23 (13-05-2021)
 - implementation: dont do _handle_template() re arrange if is the same tab template 
 
-3.8.24 (16-08-2021)
+4.8.23 (16-08-2021)
 - implementation: scroll commented

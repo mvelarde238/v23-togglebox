@@ -21,7 +21,7 @@
 	"use strict";
 
 	var instances = [],
-		version = '3.8.24',
+		version = '4.8.23',
 		timers = {};
 
 	/**
