@@ -34,6 +34,7 @@ V23_ToggleBox.create(
 5.8.23 (22-09-2021)
 - implementation: init() function
 - V23_ToggleBox.create() return instance object
+- _handle_active_class is triggered on resize
 
 4.8.23 (16-08-2021)
 - implementation: scroll commented

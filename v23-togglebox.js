@@ -123,12 +123,7 @@
 			this._handle_active_class(event.target);
 		},
 		_handle_active_class(btn){
-			// for (var i = 0; i < this.items.length; i++) {
-			// 	_removeClass(this.items[i].btn, 'active');
-			// 	_removeClass(this.items[i].box, 'active');	
-			// };				
-			
-			if (btn) { // method is triggered by a click event
+			if (btn) { // method is triggered by a user click event
 				for (var i = 0; i < this.items.length; i++) {
 					if ( this.items[i].btn === btn ) {
 						if (this.currentTemplate === 'accordion'){
@@ -144,7 +139,12 @@
 						_removeClass(this.items[i].box, 'active');	
 					}
 				};				
-			} else {
+			} else { // method is triggered on init or on resize
+				for (var i = 0; i < this.items.length; i++) {
+					_removeClass(this.items[i].btn, 'active');
+					_removeClass(this.items[i].box, 'active');	
+				};				
+
 				if (this.currentTemplate === 'tab') {
 					_addClass(this.items[0].btn, 'active');
 					_addClass(this.items[0].box, 'active');	
@@ -198,6 +198,7 @@
 					if( options.movilTemplate == 'tab' && options.desktopTemplate == 'tab') return;
 					// if( options.movilTemplate === options.desktopTemplate) return;
 					that._handle_template();
+					that._handle_active_class();
 				}, timeToWaitForLast, id);
 			}, true);
 		}
