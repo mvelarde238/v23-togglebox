@@ -2,6 +2,7 @@
 
 * _saveItems() agregar posible falta de # hash en el atributo data del elemento
 * add the class .disabled to make a tab inaccessible
+* agregar una function init
 
 /****************************** Usage:
 
