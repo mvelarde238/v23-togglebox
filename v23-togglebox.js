@@ -21,7 +21,7 @@
 	"use strict";
 
 	var instances = [],
-		version = '4.8.23',
+		version = '3.8.24',
 		timers = {};
 
 	/**
@@ -124,7 +124,6 @@
 						if (this.currentTemplate === 'accordion'){
 							_toggleClass(btn, 'active');
 							_toggleClass(this.items[i].box, 'active');
-							console.log(btn);
 							// _scrollTo(document.documentElement, (btn.offsetTop - this.options.headerHeight), 500);
 						} else {
 							_addClass(btn, 'active');
@@ -162,9 +161,7 @@
       		} else {
       			this.el.dataset.template = this.currentTemplate = options.desktopTemplate;
       		};
-
-      		if( options.movilTemplate == options.desktopTemplate ) return; 
-
+			
       		switch(this.currentTemplate){
 				case 'tab': 
 					for (var i = 0; i < this.items.length; i++) {
@@ -183,10 +180,14 @@
 		_attach_resize_events(){
 			var timeToWaitForLast = 100, 
 				that = this,
+				options = this.options,
 				id = "v23ToggleBox"+instances.length;
 
 			window.addEventListener('resize', function(){
-				_waitForFinalEvent( function() {that._handle_template();}, timeToWaitForLast, id);
+				_waitForFinalEvent( function() {
+					if( options.movilTemplate == 'tab' && options.desktopTemplate == 'tab') return;
+					that._handle_template();
+				}, timeToWaitForLast, id);
 			}, true);
 		}
 	};
