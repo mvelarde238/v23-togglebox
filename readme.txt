@@ -35,6 +35,7 @@ V23_ToggleBox.create(
 5.8.24 (29-07-2022)
 - changes for dark theme
 - init method accept options
+- addItem method 
 
 5.8.23 (22-09-2021)
 - implementation: init() function

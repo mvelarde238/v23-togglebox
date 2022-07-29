@@ -48,6 +48,7 @@
 			}
 		}
 
+		this.nav = this.el.getElementsByClassName('v23-togglebox__nav')[0];
 		this.itemsBox = this.el.getElementsByClassName('v23-togglebox__items')[0];
 
 		this.items = [];
@@ -201,6 +202,44 @@
 					that._handle_active_class();
 				}, timeToWaitForLast, id);
 			}, true);
+		},
+		/**
+	 	* Add and New Item
+	 	* @param {Object}      [options]
+		* {
+		* id:           (required) (string)
+		* btn:          (optional) (obj) { content:`` }
+		* box:          (optional) (obj) { content:`` }
+		* setActive:    (optional) (bool)
+		* afterAddItem: (optional) (function)
+		* }
+	 	*/
+		addItem(options){
+			if(options.id === undefined) return;
+			// if there is not items to clone return or create a new one?
+
+			var newBtn = this.items[0].btn.cloneNode(true);
+			newBtn.innerHTML = (options.btn && options.btn.content) ? options.btn.content : 'New Item';
+			newBtn.dataset.boxid = '#'+options.id;
+			
+			var newBox = this.items[0].box.cloneNode(true);
+			newBox.innerHTML = (options.box && options.box.content) ? options.box.content : 'Lorem ipsum dolor sit amet consectetur...';
+			newBox.id = options.id;
+
+			if(this.currentTemplate == 'tab') {
+				this.nav.appendChild(newBtn);
+				this.itemsBox.appendChild(newBox);
+			}
+
+			if(this.currentTemplate == 'accordion'){
+				this.nav.appendChild(newBtn);	
+				this.nav.appendChild(newBox);
+			}
+
+			this.items.push({ btn: newBtn, box: newBox });
+			_on(newBtn,'click', this._open_tab);
+			if(options.setActive) this._handle_active_class(newBtn);
+			if(typeof options.afterAddItem == 'function') options.afterAddItem(newBtn,newBox);
 		}
 	};
 
