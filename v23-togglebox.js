@@ -325,11 +325,11 @@
 		console.log( version );
 	};
 
-	V23_ToggleBox.init = function () {
+	V23_ToggleBox.init = function (options) {
 		var toggleboxes = document.getElementsByClassName('v23-togglebox');
 
         for (var i = 0; i < toggleboxes.length; i++) {
-            V23_ToggleBox.create( toggleboxes[i] );
+            V23_ToggleBox.create( toggleboxes[i], options);
         }
 
         return instances;

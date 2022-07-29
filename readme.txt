@@ -12,8 +12,14 @@
 </div>
 
 /****************************** JS Usage:
+cont options = {	
+	desktopTemplate : 			// (optional) (string) accordion | tab , default = tab
+	movilTemplate : 			// (optional) (string) accordion | tab , default = accordion
+	breakpoint : 				// (optional) (integer) breakpoint from desktop to movil, default = 768 
+	headerHeight : 				// (optional) (integer) used for scrolling when header is fixed
+}
 
-V23_ToggleBox.init()
+V23_ToggleBox.init(options);
 
 --or-- 
 
@@ -21,18 +27,14 @@ var el = document.getElementById('elementID');
 
 V23_ToggleBox.create( 
 	el,								// (required) (DOMElement)
-	{	
-		desktopTemplate : 			// (optional) (string) accordion | tab , default = tab
-		movilTemplate : 			// (optional) (string) accordion | tab , default = accordion
-		breakpoint : 				// (optional) (integer) breakpoint from desktop to movil, default = 768 
-		headerHeight : 				// (optional) (integer) used for scrolling when header is fixed
-	}
+	options							// (optional) (obj)
 );
 
 /****************************** Changelog:
 
 5.8.24 (29-07-2022)
 - changes for dark theme
+- init method accept options
 
 5.8.23 (22-09-2021)
 - implementation: init() function
