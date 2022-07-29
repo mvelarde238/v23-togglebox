@@ -21,14 +21,17 @@ body.text-color-2{
 	background-color: rgb(26, 25, 25);
 	color:rgb(156, 155, 155)
 }
-.add-item{
-	background-color: green;
-	border: 1px solid green;
-	color: #fff;
+.btn{
 	padding: 10px 16px;
 	border-radius: 4px;
 	margin-top: 20px;
 	cursor: pointer;
+	border: 0;
+	min-height: 37px;
+}
+.add-item{
+	color: #fff;
+	background-color: green;
 }
 .add-item:hover{
 	background-color: rgb(5, 160, 5);

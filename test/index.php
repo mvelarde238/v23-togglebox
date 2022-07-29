@@ -65,6 +65,8 @@
 				</div>
 			</div>
 			<button class="btn add-item">+ ADD ITEM</button>
+			<button class="btn remove-first-item">⮾ REMOVE FIRST</button>
+			<button class="btn remove-last-item">⮾ REMOVE LAST</button>
 		</section>
 		<?php
 		$count = ($count + 3);
@@ -79,7 +81,9 @@
 			var togglebox = sections[i].getElementsByClassName('v23-togglebox')[0],
 				id = togglebox.id,
 				options = (id === 'elementID') ? {desktopTemplate: 'tab', movilTemplate: 'accordion'} : {},
-				addItem = sections[i].getElementsByClassName('add-item')[0];
+				addItem = sections[i].getElementsByClassName('add-item')[0],
+				removeFirstItem = sections[i].getElementsByClassName('remove-first-item')[0];
+				removeLastItem = sections[i].getElementsByClassName('remove-last-item')[0];
 
 			var tb = V23_ToggleBox.create( togglebox, options );
 			(function(clousered_tb){
@@ -94,6 +98,26 @@
 							console.log(newBtn);
 						},
 						setActive : true
+					});
+				});
+
+				removeFirstItem.addEventListener('click', event => {
+					event.preventDefault();
+					clousered_tb.removeItem({
+						index : 0,
+						afterRemoveItem : function(deletedItem){
+							console.log(deletedItem);
+						}
+					});
+				});
+
+				removeLastItem.addEventListener('click', event => {
+					event.preventDefault();
+					clousered_tb.removeItem({
+						index : clousered_tb.items.length - 1,
+						afterRemoveItem : function(deletedItem){
+							console.log(deletedItem);
+						}
 					});
 				});
 			})(tb);

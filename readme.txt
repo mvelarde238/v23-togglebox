@@ -36,6 +36,7 @@ V23_ToggleBox.create(
 - changes for dark theme
 - init method accept options
 - addItem method 
+- removeItem method 
 
 5.8.23 (22-09-2021)
 - implementation: init() function

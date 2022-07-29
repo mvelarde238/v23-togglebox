@@ -204,7 +204,7 @@
 			}, true);
 		},
 		/**
-	 	* Add and New Item
+	 	* Add a New Item
 	 	* @param {Object}      [options]
 		* {
 		* id:           (required) (string)
@@ -216,7 +216,6 @@
 	 	*/
 		addItem(options){
 			if(options.id === undefined) return;
-			// if there is not items to clone return or create a new one?
 
 			var newBtn = this.items[0].btn.cloneNode(true);
 			newBtn.innerHTML = (options.btn && options.btn.content) ? options.btn.content : 'New Item';
@@ -226,20 +225,41 @@
 			newBox.innerHTML = (options.box && options.box.content) ? options.box.content : 'Lorem ipsum dolor sit amet consectetur...';
 			newBox.id = options.id;
 
-			if(this.currentTemplate == 'tab') {
-				this.nav.appendChild(newBtn);
-				this.itemsBox.appendChild(newBox);
-			}
-
-			if(this.currentTemplate == 'accordion'){
-				this.nav.appendChild(newBtn);	
-				this.nav.appendChild(newBox);
-			}
+			this.nav.appendChild(newBtn);
+			if(this.currentTemplate == 'tab') this.itemsBox.appendChild(newBox);
+			if(this.currentTemplate == 'accordion') this.nav.appendChild(newBox);
 
 			this.items.push({ btn: newBtn, box: newBox });
 			_on(newBtn,'click', this._open_tab);
 			if(options.setActive) this._handle_active_class(newBtn);
 			if(typeof options.afterAddItem == 'function') options.afterAddItem(newBtn,newBox);
+		},
+		/**
+	 	* Remove Item
+	 	* @param {Object}      [options]
+		* {
+		* index:           (required) (integer) index of item to be removed
+		* setActive:       (optional) (integer) index of item to be set as active
+		* afterRemoveItem: (optional) (function)
+		* }
+	 	*/
+		removeItem(options){
+			var index = options.index;
+			if(index <= this.items.length && this.items.length > 1 && index >= 0){
+				this.items[index].btn.remove();
+				this.items[index].box.remove();
+				var deletedItem = this.items.splice(index, 1);
+				if(options.setActive != undefined){
+					if(options.setActive >= 0 && options.setActive <= this.items.length){
+						this._handle_active_class(this.items[options.setActive].btn);
+					}
+				} else {
+					if(this.currentTemplate == 'tab' && _hasClass(deletedItem[0].btn,'active')){
+						this._handle_active_class(this.items[(this.items.length - 1)].btn);
+					}
+				}
+				if(typeof options.afterRemoveItem == 'function') options.afterRemoveItem(deletedItem);
+			}
 		}
 	};
 
