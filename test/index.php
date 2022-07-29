@@ -43,7 +43,8 @@
 		$desktoptemplate = (isset($t['desktoptemplate'])) ? 'data-desktoptemplate="'.$t['desktoptemplate'].'"' : '';
 		$id = (isset($t['id'])) ? 'id="'.$t['id'].'"' : '';
 		?>
-		<h4 style="background-color: yellow; padding: 15px"><?php echo $t['title'] ?></h4>
+		<section>
+		<h4 class="separador"><?php echo $t['title'] ?></h4>
 		<div <?php echo $id ?> class="v23-togglebox tab-style1" <?php echo $mobileTemplate.' '.$desktoptemplate ?>>
 			<div class="v23-togglebox__nav">
 				<a class="v23-togglebox__btn" data-boxid="#box<?php echo $count; ?>">Primer Item</a>
@@ -62,6 +63,7 @@
 				</div>
 			</div>
 		</div>
+		</section>
 		<?php
 		$count = ($count + 3);
 	}

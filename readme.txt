@@ -31,6 +31,9 @@ V23_ToggleBox.create(
 
 /****************************** Changelog:
 
+5.8.24 (29-07-2022)
+- changes for dark theme
+
 5.8.23 (22-09-2021)
 - implementation: init() function
 - V23_ToggleBox.create() return instance object
