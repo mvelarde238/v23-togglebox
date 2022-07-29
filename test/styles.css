@@ -4,8 +4,13 @@
 .componente{
 	padding: 15px;
 }
-
-
+body.text-color-2{
+	background-color: rgb(26, 25, 25);
+	color:rgb(156, 155, 155)
+}
+.text-color-2 h4{
+	color: #000
+}
 
 
 

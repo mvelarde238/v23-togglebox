@@ -7,7 +7,7 @@
 	<link rel="stylesheet" href="styles.css">
 	<script src="../v23-togglebox.js"></script>
 </head>
-<body>
+<body class="text-color-2">
 	<?php 
 	$toggleboxes = array(
 		array(
