@@ -35,6 +35,7 @@ V23_ToggleBox.create(
 5.8.25 (16-08-2022)
 - _findAncestor() implementation on buttons
 - separation of test and library's css
+- silent adding implementation
 
 5.8.24 (29-07-2022)
 - changes for dark theme

@@ -212,22 +212,31 @@
 		* box:          (optional) (obj) { content:`` }
 		* setActive:    (optional) (bool)
 		* afterAddItem: (optional) (function)
+		* silent:       (optional) (bool) if true there is not cloning neither adding operations
+		*                                 useful when working with models that render the view themselves
+		*                                 btn: (required) (DOMElement)
+		*                                 box: (required) (DOMElement)
 		* }
 	 	*/
 		addItem(options){
-			if(options.id === undefined) return;
+			if(!options.silent){
+				if(options.id === undefined) return;
 
-			var newBtn = this.items[0].btn.cloneNode(true);
-			newBtn.innerHTML = (options.btn && options.btn.content) ? options.btn.content : 'New Item';
-			newBtn.dataset.boxid = '#'+options.id;
-			
-			var newBox = this.items[0].box.cloneNode(true);
-			newBox.innerHTML = (options.box && options.box.content) ? options.box.content : 'Lorem ipsum dolor sit amet consectetur...';
-			newBox.id = options.id;
-
-			this.nav.appendChild(newBtn);
-			if(this.currentTemplate == 'tab') this.itemsBox.appendChild(newBox);
-			if(this.currentTemplate == 'accordion') this.nav.appendChild(newBox);
+				var newBtn = this.items[0].btn.cloneNode(true);
+				newBtn.innerHTML = (options.btn && options.btn.content) ? options.btn.content : 'New Item';
+				newBtn.dataset.boxid = '#'+options.id;
+				
+				var newBox = this.items[0].box.cloneNode(true);
+				newBox.innerHTML = (options.box && options.box.content) ? options.box.content : 'Lorem ipsum dolor sit amet consectetur...';
+				newBox.id = options.id;
+				
+				this.nav.appendChild(newBtn);
+				if(this.currentTemplate == 'tab') this.itemsBox.appendChild(newBox);
+				if(this.currentTemplate == 'accordion') this.nav.appendChild(newBox);
+			} else {
+				var newBtn = options.btn;
+				var newBox = options.box;
+			}
 
 			this.items.push({ btn: newBtn, box: newBox });
 			_on(newBtn,'click', this._open_tab);
