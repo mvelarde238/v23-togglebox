@@ -47,11 +47,6 @@ body.text-color-2{
 	font-weight: bold;
 }
 
-.v23-togglebox__btn img,
-.v23-togglebox__btn span {
-	pointer-events: none;
-}
-
 .v23-togglebox[data-template="accordion"] {
 	border: 1px solid rgba(192, 192, 192, 0.2);
 }

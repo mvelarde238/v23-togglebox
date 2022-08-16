@@ -48,9 +48,9 @@
 			<h4 class="separador"><?php echo $t['title'] ?></h4>
 			<div <?php echo $id ?> class="v23-togglebox tab-style1" <?php echo $mobileTemplate.' '.$desktoptemplate ?>>
 				<div class="v23-togglebox__nav">
-					<a class="v23-togglebox__btn" data-boxid="#box<?php echo $count; ?>">Primer Item</a>
-					<a class="v23-togglebox__btn" data-boxid="#box<?php echo ($count+1); ?>">Segundo Item</a>
-					<a class="v23-togglebox__btn" data-boxid="#box<?php echo ($count+2); ?>">Tercer Item</a>
+					<a class="v23-togglebox__btn" data-boxid="#box<?php echo $count; ?>"><p>Primer Item</p></a>
+					<a class="v23-togglebox__btn" data-boxid="#box<?php echo ($count+1); ?>"><p><i>Segundo Item</i></p></a>
+					<a class="v23-togglebox__btn" data-boxid="#box<?php echo ($count+2); ?>"><p>Tercer Item</p></a>
 				</div>
 				<div class="v23-togglebox__items">
 					<div id="box<?php echo $count; ?>" class="v23-togglebox__item">

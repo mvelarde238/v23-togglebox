@@ -21,7 +21,7 @@
 	"use strict";
 
 	var instances = [],
-		version = '5.8.24',
+		version = '5.8.25',
 		timers = {};
 
 	/**
@@ -120,7 +120,8 @@
 		},
 		_open_tab(event){
 			event.preventDefault();
-			this._handle_active_class(event.target);
+			var item = _hasClass(event.target, 'v23-togglebox__btn') ? event.target : _findAncestor(event.target, '.v23-togglebox__btn'); 
+			this._handle_active_class(item);
 		},
 		_handle_active_class(btn){
 			if (btn) { // method is triggered by a user click event
@@ -331,6 +332,11 @@
     	};
     	animateScroll();
 	};
+
+	function _findAncestor(el, selector) {
+		while ((el = el.parentElement) && !((el.matches || el.matchesSelector).call(el,selector)));
+		return el;
+	}
 
 	Math.easeInOutQuad = function (t, b, c, d) {
 		//t = current time
