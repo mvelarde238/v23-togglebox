@@ -124,7 +124,7 @@
 		_handle_active_class(btn){
 			if (btn) { // method is triggered by a user click event
 				for (var i = 0; i < this.items.length; i++) {
-					if ( this.items[i].btn === btn ) {
+					if ( this.items[i].btn.dataset.boxid === btn.dataset.boxid ) {
 						if (this.currentTemplate === 'accordion'){
 							_toggleClass(btn, 'active');
 							_toggleClass(this.items[i].box, 'active');

@@ -37,6 +37,7 @@ V23_ToggleBox.create(
 - separation of test and library's css
 - silent adding implementation
 - _attach_click_events() function delegated to nav
+- refactoring _handle_active_class() function
 
 5.8.24 (29-07-2022)
 - changes for dark theme
