@@ -21,7 +21,7 @@
 	"use strict";
 
 	var instances = [],
-		version = '5.8.25',
+		version = '5.8.26',
 		timers = {};
 
 	/**
@@ -247,21 +247,26 @@
 		* index:           (required) (integer) index of item to be removed
 		* setActive:       (optional) (integer) index of item to be set as active
 		* afterRemoveItem: (optional) (function)
+		* silent:          (optional) (bool) if true there is not removing operations
+		*                                 useful when working with models that manage the view themselves
 		* }
 	 	*/
 		removeItem(options){
 			var index = options.index;
 			if(index <= this.items.length && this.items.length > 1 && index >= 0){
-				this.items[index].btn.remove();
-				this.items[index].box.remove();
+				if(!options.silent){
+					this.items[index].btn.remove();
+					this.items[index].box.remove();
+				}
 				var deletedItem = this.items.splice(index, 1);
+				
 				if(options.setActive != undefined){
 					if(options.setActive >= 0 && options.setActive <= this.items.length){
-						this._handle_active_class(this.items[options.setActive].btn);
+						this.items[options.setActive].btn.click();
 					}
 				} else {
 					if(this.currentTemplate == 'tab' && _hasClass(deletedItem[0].btn,'active')){
-						this._handle_active_class(this.items[(this.items.length - 1)].btn);
+						this.items[(this.items.length - 1)].btn.click();
 					}
 				}
 				if(typeof options.afterRemoveItem == 'function') options.afterRemoveItem(deletedItem);
