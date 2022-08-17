@@ -114,9 +114,7 @@
 			}
 		},
 		_attach_click_events(){
-			for (var i = 0; i < this.items.length; i++) {
-				_on(this.items[i].btn,'click', this._open_tab);
-			}
+			_on(this.nav, 'click', this._open_tab);
 		},
 		_open_tab(event){
 			event.preventDefault();
@@ -239,7 +237,6 @@
 			}
 
 			this.items.push({ btn: newBtn, box: newBox });
-			_on(newBtn,'click', this._open_tab);
 			if(options.setActive) this._handle_active_class(newBtn);
 			if(typeof options.afterAddItem == 'function') options.afterAddItem(newBtn,newBox);
 		},

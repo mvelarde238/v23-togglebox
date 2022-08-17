@@ -36,6 +36,7 @@ V23_ToggleBox.create(
 - _findAncestor() implementation on buttons
 - separation of test and library's css
 - silent adding implementation
+- _attach_click_events() function delegated to nav
 
 5.8.24 (29-07-2022)
 - changes for dark theme
