@@ -93,7 +93,7 @@
 					var id = "id" + Math.random().toString(16).slice(2);
 					clousered_tb.addItem({
 						id: id,
-						btn : { content : `New Tab: ${id}` },
+						btn : { content : `<p>New Tab: ${id}</p>` },
 						box : { content : `<div class="componente">(id=${id}) Lorem ipsum dolor sit amet consectetur...</div>` },
 						afterAddItem : function(newBtn,newBox){
 							console.log(newBtn);

@@ -32,6 +32,9 @@ V23_ToggleBox.create(
 
 /****************************** Changelog:
 
+5.8.27 (19-08-2022)
+- refactoring _handle_template(): move buttons instead of moving items
+
 5.8.26 (17-08-2022)
 - silent removing implementation
 

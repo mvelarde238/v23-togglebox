@@ -21,7 +21,7 @@
 	"use strict";
 
 	var instances = [],
-		version = '5.8.26',
+		version = '5.8.27',
 		timers = {};
 
 	/**
@@ -114,12 +114,12 @@
 			}
 		},
 		_attach_click_events(){
-			_on(this.nav, 'click', this._open_tab);
+			_on(this.el, 'click', this._open_tab);
 		},
 		_open_tab(event){
 			event.preventDefault();
-			var item = _hasClass(event.target, 'v23-togglebox__btn') ? event.target : _findAncestor(event.target, '.v23-togglebox__btn'); 
-			this._handle_active_class(item);
+			var item = _hasClass(event.target, 'v23-togglebox__btn') ? event.target : _findAncestor(event.target, '.v23-togglebox__btn');
+			if(item) this._handle_active_class(item);
 		},
 		_handle_active_class(btn){
 			if (btn) { // method is triggered by a user click event
@@ -174,12 +174,12 @@
       		switch(this.currentTemplate){
 				case 'tab': 
 					for (var i = 0; i < this.items.length; i++) {
-						this.itemsBox.appendChild(this.items[i].box);
+						this.nav.appendChild(this.items[i].btn);
 					};
 					break;
 				case 'accordion':
 					for (var it = 0; it < this.items.length; it++) {
-						_insertAfter(this.items[it].box, this.items[it].btn);
+						_insertBefore(this.items[it].btn, this.items[it].box);
 					};
 					break;
 				default:
@@ -228,9 +228,9 @@
 				newBox.innerHTML = (options.box && options.box.content) ? options.box.content : 'Lorem ipsum dolor sit amet consectetur...';
 				newBox.id = options.id;
 				
-				this.nav.appendChild(newBtn);
-				if(this.currentTemplate == 'tab') this.itemsBox.appendChild(newBox);
-				if(this.currentTemplate == 'accordion') this.nav.appendChild(newBox);
+				if(this.currentTemplate == 'tab') this.nav.appendChild(newBtn);
+				if(this.currentTemplate == 'accordion') this.itemsBox.appendChild(newBtn);
+				this.itemsBox.appendChild(newBox);
 			} else {
 				var newBtn = options.btn;
 				var newBox = options.box;
@@ -374,6 +374,10 @@
 
 	function _insertAfter(newNode, referenceNode) {
     	referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+	};
+
+	function _insertBefore(newNode, referenceNode) {
+    	referenceNode.parentNode.insertBefore(newNode, referenceNode);
 	};
 
 	function _waitForFinalEvent(callback, ms, uniqueId) {

@@ -1,42 +1,41 @@
 .v23-togglebox__item:not(.active) {
 	display: none;
 }
-
 .v23-togglebox__btn {
 	font-weight: bold;
 }
-
-.v23-togglebox[data-template="accordion"] {
-	border: 1px solid rgba(192, 192, 192, 0.2);
-}
-
 .v23-togglebox[data-template="accordion"] .v23-togglebox__btn {
-	margin: 0;
-	padding: 8px 15px;
-	cursor: pointer;
-	position: relative;
 	display: block;
 	width: 100%;
+	cursor: pointer;
+}
+
+
+.v23-togglebox[data-template="accordion"].tab-style1 {
+	border: 1px solid rgba(192, 192, 192, 0.2);
+}
+.v23-togglebox[data-template="accordion"].tab-style1 .v23-togglebox__btn {
+	margin: 0;
+	padding: 8px 15px;
+	position: relative;
 	padding-right: 23px;
 	border-bottom: 1px solid rgba(192, 192, 192, 0.2);
 }
-
-.v23-togglebox[data-template="accordion"] .v23-togglebox__btn img {
+.v23-togglebox[data-template="accordion"].tab-style1 .v23-togglebox__btn img {
 	width: 23px;
 }
-
-.v23-togglebox[data-template="accordion"] .v23-togglebox__btn img,
-.v23-togglebox[data-template="accordion"] .v23-togglebox__btn span {
+.v23-togglebox[data-template="accordion"].tab-style1 .v23-togglebox__btn img,
+.v23-togglebox[data-template="accordion"].tab-style1 .v23-togglebox__btn span {
 	margin-bottom: 0;
 	margin-right: 15px;
 }
-
-.v23-togglebox[data-template="accordion"] .v23-togglebox__btn.active,
-.v23-togglebox[data-template="accordion"] .v23-togglebox__btn:hover {
+.v23-togglebox[data-template="accordion"].tab-style1 .v23-togglebox__btn.active,
+.v23-togglebox[data-template="accordion"].tab-style1 .v23-togglebox__btn:hover {
 	background-color: rgba(0, 0, 0, 0.05);
 }
 
-.v23-togglebox[data-template="accordion"] .v23-togglebox__btn:before {
+
+.v23-togglebox[data-template="accordion"].tab-style1 .v23-togglebox__btn:before {
 	content: "";
 	position: absolute;
 	top: 0;
@@ -49,15 +48,12 @@
 	border-width: 7px 5px 0 5px;
 	border-color: #000 transparent transparent transparent;
 }
-
 .v23-togglebox[data-template="tab"].tab-style1 {
 	border: 1px solid rgba(192, 192, 192, 0.2);
 }
-
 .v23-togglebox[data-template="tab"].tab-style1 .v23-togglebox__nav {
 	display: flex;
 }
-
 .v23-togglebox[data-template="tab"].tab-style1 .v23-togglebox__btn {
 	width: 100%;
 	margin: 0;
@@ -69,44 +65,38 @@
 	text-align: center;
 	font-size: .8em;
 }
-
 .v23-togglebox[data-template="tab"].tab-style1 .v23-togglebox__btn img {
 	height: 23px;
 	display: block;
 	margin: 0 auto 5px auto;
 }
-
 .v23-togglebox[data-template="tab"].tab-style1 .v23-togglebox__btn span {
 	display: block;
 	margin-bottom: 8px;
 	pointer-events: none;
 	font-size: 1.5em;
 }
-
 .v23-togglebox[data-template="tab"].tab-style1 .v23-togglebox__btn:last-child {
 	border-right: 0;
 }
-
 .v23-togglebox[data-template="tab"].tab-style1 .v23-togglebox__btn.active,
 .v23-togglebox[data-template="tab"].tab-style1 .v23-togglebox__btn:hover {
 	background-color: rgba(0, 0, 0, 0.05);
 }
-
 .v23-togglebox[data-template="tab"].tab-style1 .v23-togglebox__btn.active {
 	border-bottom: 3px solid green;
 	margin-bottom: -3px;
 }
 
+
 .v23-togglebox[data-template="tab"].tab-style2 {
 	display: flex;
 	justify-content: space-between;
 }
-
 .v23-togglebox[data-template="tab"].tab-style2 .v23-togglebox__nav {
 	width: 30%;
 	margin-top: 60px;
 }
-
 .v23-togglebox[data-template="tab"].tab-style2 .v23-togglebox__items {
 	width: 70%;
 	padding: 40px 0;
@@ -114,7 +104,6 @@
 	box-shadow: -13px 13px 0 rgba(0, 0, 0, 0.04);
 	background-color: #fff;
 }
-
 .v23-togglebox[data-template="tab"].tab-style2 .v23-togglebox__nav .v23-togglebox__btn {
 	padding: 20px 15px;
 	cursor: pointer;
@@ -122,35 +111,29 @@
 	position: relative;
 	transition: 200ms all;
 }
-
 .v23-togglebox[data-template="tab"].tab-style2 .v23-togglebox__nav .v23-togglebox__btn img {
 	height: 15px;
 	vertical-align: middle;
 }
-
 .v23-togglebox[data-template="tab"].tab-style2 .v23-togglebox__nav .v23-togglebox__btn img,
 .v23-togglebox[data-template="tab"].tab-style2 .v23-togglebox__nav .v23-togglebox__btn span {
 	margin-bottom: 0;
 	margin-right: 15px;
 }
-
 .v23-togglebox[data-template="tab"].tab-style2 .v23-togglebox__nav .v23-togglebox__btn:not(.active) {
 	border-bottom: 1px solid rgba(0, 0, 0, 0.04);
 	color: #a5a5a5;
 }
-
 .v23-togglebox[data-template="tab"].tab-style2 .v23-togglebox__nav .v23-togglebox__btn:not(.active):hover {
 	background-color: #fff;
 	box-shadow: -13px 13px 0 rgba(0, 0, 0, 0.04);
 }
-
 .v23-togglebox[data-template="tab"].tab-style2 .v23-togglebox__nav .v23-togglebox__btn.active {
 	box-shadow: -13px 13px 0 rgba(0, 0, 0, 0.04);
 	background-color: #fff;
 	border: 1px solid rgba(192, 192, 192, 0.5);
 	border-right: 0;
 }
-
 .v23-togglebox[data-template="tab"].tab-style2 .v23-togglebox__nav .v23-togglebox__btn.active:before {
 	content: '';
 	position: absolute;
@@ -160,6 +143,7 @@
 	width: 1px;
 	background-color: #fff;
 }
+
 
 .text-color-2 .v23-togglebox[data-template="accordion"],
 .text-color-2 .v23-togglebox[data-template="accordion"] .v23-togglebox__btn {
