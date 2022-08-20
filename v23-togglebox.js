@@ -161,30 +161,17 @@
 		},
 		_handle_template(){
 			var options = this.options,
-				breakpoint = options.breakpoint;
-
+				breakpoint = options.breakpoint,
+				viewportWidth = _getViewportDimensions().width;
 			if( !(typeof breakpoint === 'number') ) return;
 
-      		if ( _getViewportDimensions().width <= breakpoint) {
-      			this.el.dataset.template = this.currentTemplate = options.movilTemplate;
-      		} else {
-      			this.el.dataset.template = this.currentTemplate = options.desktopTemplate;
-      		};
-			
-      		switch(this.currentTemplate){
-				case 'tab': 
-					for (var i = 0; i < this.items.length; i++) {
-						this.nav.appendChild(this.items[i].btn);
-					};
-					break;
-				case 'accordion':
-					for (var it = 0; it < this.items.length; it++) {
-						_insertBefore(this.items[it].btn, this.items[it].box);
-					};
-					break;
-				default:
-					break;
-      		}
+			var currentTemplate = (viewportWidth <= breakpoint) ? options.movilTemplate : options.desktopTemplate;
+      		this.el.dataset.template = this.currentTemplate = currentTemplate;
+
+			for (var i = 0; i < this.items.length; i++) {
+				if(this.currentTemplate=='tab') this.nav.appendChild(this.items[i].btn);
+				if(this.currentTemplate=='accordion') _insertBefore(this.items[i].btn, this.items[i].box);
+			};
 		},
 		_attach_resize_events(){
 			var timeToWaitForLast = 100, 
