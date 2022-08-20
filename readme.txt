@@ -34,6 +34,7 @@ V23_ToggleBox.create(
 
 5.8.28 (20-08-2022)
 - _handle_template() function simplified
+- looking for buttons outside nav in case of accordion template
 
 5.8.27 (19-08-2022)
 - refactoring _handle_template(): move buttons instead of moving items

@@ -100,7 +100,7 @@
 			return true;
 		},
 		_saveItems(){
-			var btns = this.nav.getElementsByClassName('v23-togglebox__btn');
+			var btns = this.el.getElementsByClassName('v23-togglebox__btn');
 			for (var i = 0; i < btns.length; i++) {
 				var boxid = btns[i].dataset.boxid;
 
