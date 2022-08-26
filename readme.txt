@@ -32,6 +32,9 @@ V23_ToggleBox.create(
 
 /****************************** Changelog:
 
+5.8.29 (26-08-2022)
+- find the item in node tree
+
 5.8.28 (20-08-2022)
 - _handle_template() function simplified
 - looking for buttons outside nav in case of accordion template

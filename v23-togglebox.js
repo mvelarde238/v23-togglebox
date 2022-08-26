@@ -21,7 +21,7 @@
 	"use strict";
 
 	var instances = [],
-		version = '5.8.27',
+		version = '5.8.29',
 		timers = {};
 
 	/**
@@ -124,18 +124,20 @@
 		_handle_active_class(btn){
 			if (btn) { // method is triggered by a user click event
 				for (var i = 0; i < this.items.length; i++) {
+					let item = this.el.querySelector( this.items[i].btn.dataset.boxid );
+
 					if ( this.items[i].btn.dataset.boxid === btn.dataset.boxid ) {
 						if (this.currentTemplate === 'accordion'){
 							_toggleClass(btn, 'active');
-							_toggleClass(this.items[i].box, 'active');
+							_toggleClass(item, 'active');
 							// _scrollTo(document.documentElement, (btn.offsetTop - this.options.headerHeight), 500);
 						} else {
 							_addClass(btn, 'active');
-							_addClass(this.items[i].box, 'active');	
+							_addClass(item, 'active');	
 						}
 					} else {
 						_removeClass(this.items[i].btn, 'active');
-						_removeClass(this.items[i].box, 'active');	
+						_removeClass(item, 'active');	
 					}
 				};				
 			} else { // method is triggered on init or on resize
