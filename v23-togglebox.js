@@ -38,7 +38,7 @@
 		if (!this._createInstance(el)) return;
 		
 		this.el = el; // root element
-		this.currentTemplate = null;
+		this.activeTemplate = null;
 		this._handleOptions(options);
 
 		// Bind all private methods
@@ -55,7 +55,6 @@
 		this._saveItems();
 		if (this.items.length > 0) {
 			this._handle_template();
-			this._handle_active_class();
 			this._attach_click_events();
 			this._change_active_tab_if_hash_in_url();
 			this._attach_resize_events();	
@@ -66,29 +65,44 @@
 		_handleOptions( options ){
 			// options configured as data-attributes
 			var dataOptions = {},
-				dataHeaderHeight = this.el.dataset.headerheight,
-				dataDesktopTemplate = this.el.dataset.desktoptemplate,
-				dataMovilTemplate = this.el.dataset.moviltemplate;
+				dataTemplate = this.el.dataset.template,
+				dataBreakpoints = this.el.dataset.breakpoints,
+				dataHeaderHeight = this.el.dataset.headerheight;
 
-			if (dataDesktopTemplate != undefined) dataOptions.desktopTemplate = dataDesktopTemplate; 
-            if (dataMovilTemplate != undefined) dataOptions.movilTemplate = dataMovilTemplate;
+			if (dataTemplate != undefined) dataOptions.initialTemplate = dataTemplate;
+			if (dataBreakpoints != undefined) dataOptions.breakpoints = this._handleDataBreakpoints(dataBreakpoints); 
             if (dataHeaderHeight != undefined) dataOptions.headerHeight = dataHeaderHeight;
-
-            // dataOptions are overriddden if options arg is passed
-			this.options = options = _extend(dataOptions, options);
-
+			
+            // js-options are overriddden if data-options are passed
+			this.options = options = _extend(options, dataOptions);
+			
 			// defaults if no options are passed
 			var defaults = {
-				desktopTemplate : 'tab',
-				movilTemplate : 'accordion',
-				breakpoint : 768,
+				initialTemplate : 'tab',
+				breakpoints : {
+					768 : {template:'accordion'}
+				},
 				headerHeight : 0
 			};
-	
+			
 			// Set default options
 			for (var name in defaults) {
 				!(name in options) && (options[name] = defaults[name]);
 			}
+		},
+		_handleDataBreakpoints(str){
+			var _obj = {},
+				items = str.split(',');
+
+			if( Array.isArray(items) ){
+				items.map( item =>{
+					if(item != ''){
+						var options = item.split('|');
+						if(Array.isArray(options) && options.length && options[0]) _obj[parseInt(options[0])] = {template:options[1]};
+					}
+				});
+			} 
+			return _obj;
 		},
 		_createInstance(el){
 			for (var i = 0; i < instances.length; i++) {
@@ -127,7 +141,7 @@
 					let item = this.el.querySelector( this.items[i].btn.dataset.boxid );
 
 					if ( this.items[i].btn.dataset.boxid === btn.dataset.boxid ) {
-						if (this.currentTemplate === 'accordion'){
+						if (this.activeTemplate === 'accordion'){
 							_toggleClass(btn, 'active');
 							_toggleClass(item, 'active');
 							// _scrollTo(document.documentElement, (btn.offsetTop - this.options.headerHeight), 500);
@@ -146,7 +160,7 @@
 					_removeClass(this.items[i].box, 'active');	
 				};				
 
-				if (this.currentTemplate === 'tab') {
+				if (this.activeTemplate === 'tab') {
 					_addClass(this.items[0].btn, 'active');
 					_addClass(this.items[0].box, 'active');	
 				}
@@ -162,31 +176,45 @@
     	    } 
 		},
 		_handle_template(){
-			var options = this.options,
-				breakpoint = options.breakpoint,
-				viewportWidth = _getViewportDimensions().width;
-			if( !(typeof breakpoint === 'number') ) return;
+			var previousTemplate = this.activeTemplate,
+				template = this._get_viewport_template(_getViewportDimensions().width);
+				
+			if(previousTemplate != template){
+				this.el.dataset.template = this.activeTemplate = template;
 
-			var currentTemplate = (viewportWidth <= breakpoint) ? options.movilTemplate : options.desktopTemplate;
-      		this.el.dataset.template = this.currentTemplate = currentTemplate;
+				for (var i = 0; i < this.items.length; i++) {
+					if(template=='tab') this.nav.appendChild(this.items[i].btn);
+					if(template=='accordion') _insertBefore(this.items[i].btn, this.items[i].box);
+				};
+				this._handle_active_class();
+			}
+		},
+		_get_viewport_template(viewportWidth){
+			var newTemplate = null,
+				breakpoints = this.options.breakpoints;
+				
+			if( Object.keys(breakpoints).length > 0 ){
+				var breakpointZones = [];
 
-			for (var i = 0; i < this.items.length; i++) {
-				if(this.currentTemplate=='tab') this.nav.appendChild(this.items[i].btn);
-				if(this.currentTemplate=='accordion') _insertBefore(this.items[i].btn, this.items[i].box);
-			};
+				for(var bp in breakpoints){
+					if (bp >= viewportWidth) { breakpointZones.push(bp); }
+				}
+				if( breakpointZones.length ){
+					var shortest = Math.min.apply(Math, breakpointZones);
+					newTemplate = breakpoints[shortest].template;
+				}
+			} 
+
+			return newTemplate || this.options.initialTemplate;
 		},
 		_attach_resize_events(){
 			var timeToWaitForLast = 100, 
 				that = this,
-				options = this.options,
 				id = "v23ToggleBox"+instances.length;
 
 			window.addEventListener('resize', function(){
 				_waitForFinalEvent( function() {
-					if( options.movilTemplate == 'tab' && options.desktopTemplate == 'tab') return;
-					// if( options.movilTemplate === options.desktopTemplate) return;
 					that._handle_template();
-					that._handle_active_class();
 				}, timeToWaitForLast, id);
 			}, true);
 		},
@@ -217,8 +245,8 @@
 				newBox.innerHTML = (options.box && options.box.content) ? options.box.content : 'Lorem ipsum dolor sit amet consectetur...';
 				newBox.id = options.id;
 				
-				if(this.currentTemplate == 'tab') this.nav.appendChild(newBtn);
-				if(this.currentTemplate == 'accordion') this.itemsBox.appendChild(newBtn);
+				if(this.activeTemplate == 'tab') this.nav.appendChild(newBtn);
+				if(this.activeTemplate == 'accordion') this.itemsBox.appendChild(newBtn);
 				this.itemsBox.appendChild(newBox);
 			} else {
 				var newBtn = options.btn;
@@ -254,7 +282,7 @@
 						this.items[options.setActive].btn.click();
 					}
 				} else {
-					if(this.currentTemplate == 'tab' && _hasClass(deletedItem[0].btn,'active')){
+					if(this.activeTemplate == 'tab' && _hasClass(deletedItem[0].btn,'active')){
 						this.items[(this.items.length - 1)].btn.click();
 					}
 				}

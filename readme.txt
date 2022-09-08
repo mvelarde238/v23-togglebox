@@ -1,6 +1,6 @@
 /****************************** HTML Usage:
 
-<div id="elementID" class="v23-togglebox tab-style1" data-desktoptemplate="(tab/accordion)" data-moviltemplate="(tab/accordion)">
+<div id="elementID" class="v23-togglebox tab-style1" data-template="(tab/accordion)" data-breakpoints="(integer):(tab/accordion)">
 	<div class="v23-togglebox__nav">
 		<* class="v23-togglebox__btn" data-boxid="#boxID">...</*>
 		...
@@ -13,10 +13,14 @@
 
 /****************************** JS Usage:
 cont options = {	
-	desktopTemplate : 			// (optional) (string) accordion | tab , default = tab
-	movilTemplate : 			// (optional) (string) accordion | tab , default = accordion
-	breakpoint : 				// (optional) (integer) breakpoint from desktop to movil, default = 768 
-	headerHeight : 				// (optional) (integer) used for scrolling when header is fixed
+	initialTemplate : 			// (optional) (string) accordion | tab , default = tab
+
+	// Used for scrolling when header is fixed
+	headerHeight : 				// (optional) (integer) 
+	
+	// Breakpoints to handle template changes
+	breakpoints : 				// (optional) (obj) { (integer) : {template: (string) accordion | tab }, ... }
+								// default = { 768 : {template:'accordion'} }
 }
 
 V23_ToggleBox.init(options);
@@ -31,6 +35,9 @@ V23_ToggleBox.create(
 );
 
 /****************************** Changelog:
+
+6.8.23 (26-08-2022)
+- v6: handle template in diferent devices with breakpoints
 
 5.8.29 (26-08-2022)
 - find the item in node tree
@@ -69,7 +76,7 @@ V23_ToggleBox.create(
 3.8.23 (13-01-2021)
 - implementation: headerHeight option 
 - implementation: dont do _handle_template() re arrange if is the same tab template 
-
+3
 2.8.23 (26-03-2020)
 - implementation: _cleanHash() function
 

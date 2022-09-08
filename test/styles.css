@@ -15,7 +15,8 @@ section{
 .separador{
 	background-color: green;
 	color: #fff;
-	padding: 10px 5px
+	padding: 10px 5px;
+	margin-bottom: 0;
 }
 body.text-color-2{
 	background-color: rgb(26, 25, 25);
@@ -35,4 +36,13 @@ body.text-color-2{
 }
 .add-item:hover{
 	background-color: rgb(5, 160, 5);
+}
+
+code{
+	background-color: #080808;
+	color: rgb(5, 160, 5);
+	padding: 25px 15px;
+	border-radius: 5px;
+	display: block;
+	margin-bottom: 15px;
 }
