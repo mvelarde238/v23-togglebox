@@ -1,0 +1,38 @@
+#{$namespace}[data-style="accordion-style-1"]
+    #{$namespace}__btn,
+    #{$namespace}__item
+        &.active
+            border-bottom-color: transparent
+            background-color: rgba( var(--accent-color-rgb), .15 )   
+    
+    #{$namespace}__item
+        padding-left: 50px
+        &.active
+            padding-bottom: 30px
+
+    #{$namespace}__btn
+        padding-left: 50px
+        position: relative 
+        &::after
+            position: absolute
+            top: 8px
+            left: 8px
+            content: '+'
+            width: 30px
+            height: 30px
+            border-radius: 50%
+            text-align: center
+            line-height: 30px
+            font-size: 30px
+        &.active
+            &::after
+                content: '-'
+                background-color: #fff
+                line-height: 25px
+
+.text-color-2
+    #{$namespace}[data-style="accordion-style-1"]
+        #{$namespace}__btn
+            &::after
+                background-color: var(--accent-color)
+                color: #000

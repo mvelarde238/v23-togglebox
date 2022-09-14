@@ -1,0 +1,25 @@
+#{$namespace}[data-style="tab-style-3"]
+    #{$namespace}__nav
+        background-color: #f1f1f1
+        border-radius: 40px
+        padding: 4px
+        margin-bottom: 35px
+    #{$namespace}__btn
+        margin-right: 4px
+        padding: 12px 30px
+        border-radius: 40px
+        transition: 500ms background-color
+        &.active, &:hover
+            background-color: #fff
+        &.active
+            box-shadow: 0 0 23px rgba(78, 78, 78, 0.3)
+
+.text-color-2
+    #{$namespace}[data-style="tab-style-3"]
+        #{$namespace}__nav
+            background-color: var(--accent-color)
+        #{$namespace}__btn
+            &.active, &:hover, &:not(.active):hover
+                color: var(--accent-color)
+            &:not(.active)
+                color: #fff 

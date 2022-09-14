@@ -1,0 +1,30 @@
+#{$namespace}[data-style="tab-style-6"]
+    display: flex
+    justify-content: space-between
+    --border-color: #e4e4e4
+
+    #{$namespace}__nav
+        width: 300px
+        min-width: 80px
+        margin: 23px 0
+
+    #{$namespace}__items
+        width: 100%
+        border-left: 1px solid var(--border-color)
+        padding: 20px 0 20px 30px
+
+    #{$namespace}__btn
+        margin: 0
+        display: block
+        padding: 10px 15px  
+        &.active, &:hover
+            color: var(--accent-color)
+            position: relative
+            &:before
+                content: ''
+                position: absolute
+                right: -3px
+                top: 0
+                height: 100%
+                width: 5px
+                background-color: var(--accent-color)

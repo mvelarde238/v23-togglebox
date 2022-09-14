@@ -1,0 +1,20 @@
+#{$namespace}[data-style="tab-style-5"]
+    display: flex
+    justify-content: space-between
+
+    #{$namespace}__nav
+        width: 300px
+        min-width: 80px
+
+    #{$namespace}__items
+        width: 100%
+
+    #{$namespace}__btn
+        display: block
+        padding: 15px 15px
+        border-radius: 8px
+        margin-bottom: 2px
+        transition: 500ms background-color
+        &.active, &:hover
+            background-color: var(--accent-color)
+            color: #fff

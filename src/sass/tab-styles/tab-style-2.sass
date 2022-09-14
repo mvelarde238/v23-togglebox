@@ -1,0 +1,73 @@
+@mixin sombra
+    box-shadow: -13px 13px 0 rgba(0,0,0,.06)
+
+#{$namespace}[data-style="tab-style-2"]
+    display: flex
+    justify-content: space-between
+    --border-color: #e4e4e4
+
+    #{$namespace}__nav
+        width: 30%
+        margin-top: 60px
+
+    #{$namespace}__items
+        width: 70%
+        padding: 40px
+        border: 1px solid var(--border-color)
+        background-color: #fff
+        @include sombra
+
+    #{$namespace}__btn
+        display: block
+        width: 100%
+        padding: 15px 15px
+        margin: 0
+        position: relative
+        transition: 200ms all
+        img
+            height: 15px
+            vertical-align: middle
+        img, span
+            margin-bottom: 0
+            margin-right: 15px
+
+        &:not(.active)
+            border-bottom: 1px solid var(--border-color)
+            color: #a5a5a5
+            &:hover
+                background-color: #fff
+                @include sombra
+
+        &.active
+            background-color: #fff
+            border: 1px solid var(--border-color)
+            border-right: 0
+            @include sombra
+            &:before
+                content: ''
+                position: absolute
+                top: 0
+                right: -1px
+                height: 100%
+                width: 1px
+                background-color: #fff
+
+.text-color-2
+    #{$namespace}[data-style="tab-style-2"] 
+        --border-color: var(--accent-color)
+
+        #{$namespace}__items
+            background-color: transparent
+            
+        #{$namespace}__btn
+            margin-bottom: 2px
+            &.active
+                background-color: var(--accent-color)
+                color: #fff
+                &:before
+                    background-color: var(--accent-color)
+            &:not(.active)
+                color: inherit
+                &:hover
+                    background-color: var(--accent-color)
+                    color: #fff

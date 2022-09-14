@@ -1,0 +1,42 @@
+#{$namespace}[data-style="tab-style-1"] 
+    --border-color: #e4e4e4
+    border: 1px solid var(--border-color)
+
+    #{$namespace}__nav
+        display: flex
+
+    #{$namespace}__btn
+        margin: 0
+        flex-grow: 1
+        padding: 30px 5px
+        border: 0
+        border-bottom: 1px solid var(--border-color)
+        border-right: 1px solid var(--border-color)
+        text-align: center
+        font-size: .8em
+        img
+            height: 23px
+            display: block
+            margin: 0 auto 5px auto
+        span
+            display: block
+            margin-bottom: 8px
+            font-size: 1.5em
+        &:last-child
+            border-right: 0
+        &.active, &:hover
+            background-color: #fdfdfd
+        &.active
+            border-bottom: 3px solid var(--accent-color)
+            margin-bottom: -3px
+    #{$namespace}__items
+        padding: 25px
+
+.text-color-2
+    #{$namespace}[data-style="tab-style-1"] 
+        --border-color: #2e2d2d
+        #{$namespace}__btn
+            &.active, &:hover
+                background-color: #191919
+            &.active
+                border-bottom-color: var(--accent-color)

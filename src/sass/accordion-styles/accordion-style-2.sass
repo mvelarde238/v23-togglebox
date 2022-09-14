@@ -1,0 +1,29 @@
+#{$namespace}[data-style="accordion-style-2"]
+    --border-color: #e4e4e4
+    #{$namespace}__btn
+        border: 1px solid var(--border-color)
+        border-radius: 6px
+        margin-bottom: 4px
+        padding: 20px 40px
+        &::before
+            right: 30px
+        &.active
+            border: 1px solid var(--accent-color)
+            margin-bottom: 0
+            border-radius: 6px 6px 0 0
+            border-bottom: 0
+        &:hover, &.active
+            background-color: rgba( var(--accent-color-rgb), .1 )  
+
+    #{$namespace}__item
+        padding: 0 40px 30px 40px
+        &.active
+            border: 1px solid var(--accent-color)
+            margin-bottom: 20px
+            border-top: 0
+            border-radius: 0 0 6px 6px
+            background-color: rgba( var(--accent-color-rgb), .1 )  
+
+.text-color-2
+    #{$namespace}[data-style="accordion-style-2"]
+        --border-color: #333

@@ -1,8 +1,13 @@
-/****************************** HTML Usage:
+# V23 ToggleBox
 
-<div id="elementID" class="v23-togglebox tab-style1" data-template="(tab/accordion)" data-breakpoints="(integer):(tab/accordion)">
+### HTML
+```html
+<link href="./dist/v23-togglebox.css" rel="stylesheet">
+<script src="./dist/v23-togglebox.js"></script>
+
+<div id="elementID" class="v23-togglebox">
 	<div class="v23-togglebox__nav">
-		<* class="v23-togglebox__btn" data-boxid="#boxID">...</*>
+		<a class="v23-togglebox__btn" data-boxid="#boxID">...</a>
 		...
 	</div>
 	<div class="v23-togglebox__items">
@@ -10,19 +15,14 @@
 		...
 	</div>
 </div>
+```
 
-/****************************** JS Usage:
+### JS
+```js
 cont options = {	
-	initialTemplate : 			// (optional) (string) accordion | tab , default = tab
-
-	// Used for scrolling when header is fixed
-	headerHeight : 				// (optional) (integer) 
-	
-	// Breakpoints to handle template changes
-	breakpoints : 				// (optional) (obj) { (integer) : {template: (string) accordion | tab }, ... }
-								// default = { 768 : {template:'accordion'} }
+	headerHeight : 100,
+	breakpoints : {}
 }
-
 V23_ToggleBox.init(options);
 
 --or-- 
@@ -31,13 +31,65 @@ var el = document.getElementById('elementID');
 
 V23_ToggleBox.create( 
 	el,								// (required) (DOMElement)
-	options							// (optional) (obj)
+	options						// (optional) (obj)
 );
+```
 
-/****************************** Changelog:
+## Summary
+
+* Library name: `v23-togglebox`
+
+## Options
+
+| Option | Description | Default |
+|-|-|-
+| `headerHeight` | (optional) (integer) Used for scrolling when header is fixed | 0 |
+| `breakpoints` | (optional) (obj) Breakpoints to handle template and styles changes { (integer/'desktop') : {template: (string) accordion | tab, style: (string) }, ... } | { desktop: { template: 'tab', style: '' }, 768: { template:'accordion', style: '' } } |
+
+
+## Download
+
+* GIT
+  * `git clone https://github.com/mvelarde238/v23-togglebox.git`
+
+## Development
+
+Clone the repository
+
+```sh
+$ git clone https://github.com/mvelarde238/v23-togglebox.git
+$ cd v23-togglebox
+```
+
+Install dependencies
+
+```sh
+$ npm i
+```
+
+Start the dev server
+
+```sh
+$ npm run serve
+```
+
+Build the source
+
+```sh
+$ npm run build
+```
+
+## Changelog
+
+
+8.8.23 (13-09-2022)
+- version 8.8.23
+- handle style for diferent devices with breakpoints
+- new [tab/accordion] styles
+- webpack implementation for development
 
 6.8.23 (26-08-2022)
-- v6: handle template in diferent devices with breakpoints
+- v6: handle template for diferent devices with breakpoints
 
 5.8.29 (26-08-2022)
 - find the item in node tree
@@ -80,7 +132,6 @@ V23_ToggleBox.create(
 2.8.23 (26-03-2020)
 - implementation: _cleanHash() function
 
-/****************************** TO-DO LIST
+## License
 
-* _saveItems() agregar posible falta de # hash en el atributo data del elemento
-* add the class .disabled to make a tab inaccessible
+MIT
