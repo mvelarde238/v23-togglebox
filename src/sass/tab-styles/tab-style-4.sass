@@ -1,20 +1,21 @@
 #{$namespace}[data-style="tab-style-4"]
-    --border-color: #e4e4e4
     #{$namespace}__nav
         display: flex
         flex-wrap: wrap
-        margin-bottom: 35px
     #{$namespace}__btn
         flex-grow: 1
         text-align: center
         margin: 0
         padding: 15px 30px
-        border-top: 2px solid var(--border-color)
-        border-bottom: 2px solid var(--border-color)
+        &:not(.active)
+            border-top: 2px solid var(--ui-color-2, #{$ui-color-2})
+            border-bottom: 2px solid var(--ui-color-2, #{$ui-color-2})
         &.active, &:hover
-            border-color: var(--accent-color)
+            border-top: 2px solid var(--ui-color-1, #{$ui-color-1})
+            border-bottom: 2px solid var(--ui-color-1, #{$ui-color-1})
 
 .text-color-2
     #{$namespace}[data-style="tab-style-4"]
         #{$namespace}__btn
-            --border-color: #333
+            &:not(.active)
+                border-color: currentcolor

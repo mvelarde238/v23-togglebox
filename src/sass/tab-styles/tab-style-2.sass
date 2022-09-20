@@ -1,10 +1,9 @@
 @mixin sombra
-    box-shadow: -13px 13px 0 rgba(0,0,0,.06)
+    box-shadow: -13px 13px 0 var(--ui-color-2, #{$ui-color-2})
 
 #{$namespace}[data-style="tab-style-2"]
     display: flex
     justify-content: space-between
-    --border-color: #e4e4e4
 
     #{$namespace}__nav
         width: 30%
@@ -12,10 +11,12 @@
 
     #{$namespace}__items
         width: 70%
-        padding: 40px
-        border: 1px solid var(--border-color)
+        border: 1px solid var(--ui-color-2, #{$ui-color-2})
         background-color: #fff
         @include sombra
+
+    #{$namespace}__item
+        padding: 40px
 
     #{$namespace}__btn
         display: block
@@ -32,15 +33,15 @@
             margin-right: 15px
 
         &:not(.active)
-            border-bottom: 1px solid var(--border-color)
-            color: #a5a5a5
+            border-bottom: 1px solid var(--ui-color-2, #{$ui-color-2})
             &:hover
                 background-color: #fff
+                color: var(--ui-color-1, #{$ui-color-1})
                 @include sombra
 
         &.active
             background-color: #fff
-            border: 1px solid var(--border-color)
+            border: 1px solid var(--ui-color-2, #{$ui-color-2})
             border-right: 0
             @include sombra
             &:before
@@ -54,20 +55,20 @@
 
 .text-color-2
     #{$namespace}[data-style="tab-style-2"] 
-        --border-color: var(--accent-color)
-
         #{$namespace}__items
             background-color: transparent
+            border-color: var(--ui-color-1, #{$ui-color-1})
+            box-shadow: initial
             
         #{$namespace}__btn
-            margin-bottom: 2px
             &.active
-                background-color: var(--accent-color)
-                color: #fff
+                background-color: transparent
+                box-shadow: initial
+                border-color: var(--ui-color-1, #{$ui-color-1})
                 &:before
-                    background-color: var(--accent-color)
+                    background-color: var(--ui-color-1, #{$ui-color-1})
             &:not(.active)
-                color: inherit
+                border-color: var(--ui-color-1, #{$ui-color-1})
                 &:hover
-                    background-color: var(--accent-color)
-                    color: #fff
+                    background-color: transparent
+                    box-shadow: initial

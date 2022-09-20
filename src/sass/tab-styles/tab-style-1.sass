@@ -1,6 +1,5 @@
 #{$namespace}[data-style="tab-style-1"] 
-    --border-color: #e4e4e4
-    border: 1px solid var(--border-color)
+    border: 1px solid var(--ui-color-2, #{$ui-color-2})
 
     #{$namespace}__nav
         display: flex
@@ -10,8 +9,8 @@
         flex-grow: 1
         padding: 30px 5px
         border: 0
-        border-bottom: 1px solid var(--border-color)
-        border-right: 1px solid var(--border-color)
+        border-bottom: 1px solid var(--ui-color-2, #{$ui-color-2})
+        border-right: 1px solid var(--ui-color-2, #{$ui-color-2})
         text-align: center
         font-size: .8em
         img
@@ -25,18 +24,11 @@
         &:last-child
             border-right: 0
         &.active, &:hover
-            background-color: #fdfdfd
-        &.active
-            border-bottom: 3px solid var(--accent-color)
+            border-bottom: 3px solid var(--ui-color-1, #{$ui-color-1})
             margin-bottom: -3px
-    #{$namespace}__items
+    #{$namespace}__item
         padding: 25px
 
 .text-color-2
     #{$namespace}[data-style="tab-style-1"] 
-        --border-color: #2e2d2d
-        #{$namespace}__btn
-            &.active, &:hover
-                background-color: #191919
-            &.active
-                border-bottom-color: var(--accent-color)
+        border-color: currentcolor

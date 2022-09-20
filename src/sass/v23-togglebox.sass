@@ -1,8 +1,6 @@
-$namespace: '.v23-togglebox' !default
+@import "variables"
     
 #{$namespace}
-    --accent-color: cornflowerblue
-    --accent-color-rgb: 100, 149, 237
     *
         box-sizing: border-box
 
@@ -11,21 +9,23 @@ $namespace: '.v23-togglebox' !default
     &__btn
         cursor: pointer
         &.active
-            color: var(--accent-color)
+            color: var(--ui-color-1, #{$ui-color-1})
         p
             margin: 0
-    &__nav
-        margin-bottom: 20px
 
     &[data-template="tab"] &__btn
         margin-right: 20px
         display: inline-block
 
+    &[data-template="tab"] &__item
+        padding-top: 23px
+        padding-bottom: 23px
+
     &[data-template="accordion"] 
         #{$namespace}__btn
             padding: 10px 23px 10px 15px
             display: block
-            border-bottom: 1px solid rgba(silver, .2)
+            border-bottom: 1px solid var(--ui-color-2, #{$ui-color-2})
             position: relative
             &:before
                 content: ""
@@ -45,8 +45,9 @@ $namespace: '.v23-togglebox' !default
                 margin-bottom: 0
                 margin-right: 15px
             &.active, &:hover
-                color: var(--accent-color)
+                color: var(--ui-color-1, #{$ui-color-1})
             &.active
+                border-color: var(--ui-color-1, #{$ui-color-1})
                 &:before
                     transform: rotate(180deg)
         #{$namespace}__item

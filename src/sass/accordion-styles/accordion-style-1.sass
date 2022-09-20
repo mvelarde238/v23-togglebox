@@ -3,7 +3,7 @@
     #{$namespace}__item
         &.active
             border-bottom-color: transparent
-            background-color: rgba( var(--accent-color-rgb), .15 )   
+            background-color: var(--ui-color-2, #{$ui-color-2})
     
     #{$namespace}__item
         padding-left: 50px
@@ -32,7 +32,10 @@
 
 .text-color-2
     #{$namespace}[data-style="accordion-style-1"]
-        #{$namespace}__btn
-            &::after
-                background-color: var(--accent-color)
-                color: #000
+        #{$namespace}__btn,
+        #{$namespace}__item
+            &.active
+                background-color: transparent
+                &::after
+                    background-color: var(--ui-color-1, #{$ui-color-1})
+                    color: #000

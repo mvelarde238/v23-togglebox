@@ -21,7 +21,8 @@ module.exports = (env, argv) => {
                 directory: path.join(__dirname, './'),
             },
             liveReload: false,
-            hot: true
+            hot: true,
+            open: true
         },
         plugins: [
             new HtmlWebpackPlugin({

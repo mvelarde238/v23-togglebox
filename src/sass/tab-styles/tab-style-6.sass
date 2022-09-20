@@ -1,7 +1,6 @@
 #{$namespace}[data-style="tab-style-6"]
     display: flex
     justify-content: space-between
-    --border-color: #e4e4e4
 
     #{$namespace}__nav
         width: 300px
@@ -10,7 +9,9 @@
 
     #{$namespace}__items
         width: 100%
-        border-left: 1px solid var(--border-color)
+        border-left: 1px solid var(--ui-color-2, #{$ui-color-2})
+    
+    #{$namespace}__item
         padding: 20px 0 20px 30px
 
     #{$namespace}__btn
@@ -18,7 +19,7 @@
         display: block
         padding: 10px 15px  
         &.active, &:hover
-            color: var(--accent-color)
+            color: var(--ui-color-1, #{$ui-color-1})
             position: relative
             &:before
                 content: ''
@@ -27,4 +28,4 @@
                 top: 0
                 height: 100%
                 width: 5px
-                background-color: var(--accent-color)
+                background-color: var(--ui-color-1, #{$ui-color-1})

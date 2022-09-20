@@ -82,6 +82,9 @@ $ npm run build
 ## Changelog
 
 
+8.8.24 (19-09-2022)
+- color scheme inherit --ui-color-1 and --ui-color-2 variables
+
 8.8.23 (13-09-2022)
 - version 8.8.23
 - handle style for diferent devices with breakpoints
