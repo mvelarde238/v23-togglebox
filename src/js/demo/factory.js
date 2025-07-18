@@ -3,9 +3,9 @@ export default {
     <h1>V23 ToggleBox Demo</h1>
     <div id="demo" class="v23-togglebox">				
         <div class="v23-togglebox__nav">
-			<a class="v23-togglebox__btn" data-boxid="#box1"><p>Primer Item</p></a>
-            <a class="v23-togglebox__btn" data-boxid="#box2"><p><i>Segundo Item</i></p></a>
-            <a class="v23-togglebox__btn" data-boxid="#box3"><p>Tercer Item</p></a>
+			<p class="v23-togglebox__btn" data-boxid="#box1"><p>Primer Item</p></p>
+            <p class="v23-togglebox__btn" data-boxid="#box2"><p><i>Segundo Item</i></p></p>
+            <p class="v23-togglebox__btn" data-boxid="#box3"><p>Tercer Item</p></p>
         </div>
 		<div class="v23-togglebox__items">
 			<div id="box1" class="v23-togglebox__item">

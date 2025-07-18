@@ -7,7 +7,7 @@
 
 <div id="elementID" class="v23-togglebox">
 	<div class="v23-togglebox__nav">
-		<a class="v23-togglebox__btn" data-boxid="#boxID">...</a>
+		<p class="v23-togglebox__btn" data-boxid="#boxID">...</p>
 		...
 	</div>
 	<div class="v23-togglebox__items">
@@ -70,7 +70,7 @@ $ npm i
 Start the dev server
 
 ```sh
-$ npm run serve
+$ npm run start
 ```
 
 Build the source
@@ -81,6 +81,8 @@ $ npm run build
 
 ## Changelog
 
+9.0.0 (16-07-2025)
+- Merge with changes made in mv23theme repo
 
 8.8.24 (19-09-2022)
 - color scheme inherit --ui-color-1 and --ui-color-2 variables
@@ -131,7 +133,7 @@ $ npm run build
 3.8.23 (13-01-2021)
 - implementation: headerHeight option 
 - implementation: dont do _handle_template() re arrange if is the same tab template 
-3
+
 2.8.23 (26-03-2020)
 - implementation: _cleanHash() function
 

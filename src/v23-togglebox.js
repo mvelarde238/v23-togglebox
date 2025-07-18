@@ -6,7 +6,7 @@ import "./sass/v23-togglebox.sass";
  * @license MIT
  */
 
- (function v23ToggleBoxModule(factory) {
+(function v23ToggleBoxModule(factory) {
 	"use strict";
 
 	if (typeof define === "function" && define.amd) {
@@ -23,7 +23,7 @@ import "./sass/v23-togglebox.sass";
 	"use strict";
 
 	var instances = [],
-		version = '7.8.23',
+		version = '9.0.0',
 		timers = {};
 
 	/**
@@ -40,6 +40,8 @@ import "./sass/v23-togglebox.sass";
 		if (!this._createInstance(el)) return;
 		
 		this.el = el; // root element
+		this.activeTemplate = null;
+		this.initialUrl = window.location.href;
 		this._handleOptions(options);
 		this.options.previousBreakpoint = null;
 
@@ -53,12 +55,18 @@ import "./sass/v23-togglebox.sass";
 		this.nav = this.el.getElementsByClassName('v23-togglebox__nav')[0];
 		this.itemsBox = this.el.getElementsByClassName('v23-togglebox__items')[0];
 
-		this.items = this._saveItems();
+		this.items = [];
+		this._saveItems();
 		if (this.items.length > 0) {
-			this._handle_template();
-			this._attach_click_events();
-			this._change_active_tab_if_hash_in_url();
-			this._attach_resize_events();	
+			setTimeout(() => {
+				this._attach_click_events();
+				this._handle_template();
+				this._change_active_tab_if_hash_in_url();
+				this._attach_resize_events();
+				this._attach_hashchange_events();
+	
+				_addClass(this.el, 'v23-togglebox-initialized');
+			}, this.options.delay);
 		}
 	};
 
@@ -66,20 +74,44 @@ import "./sass/v23-togglebox.sass";
 		_handleOptions( options ){
 			// options configured as data-attributes
 			var dataOptions = {},
+				dataTemplate = this.el.dataset.template,
 				dataBreakpoints = this.el.dataset.breakpoints,
-				dataHeaderHeight = this.el.dataset.headerheight;
+				dataHeaderHeight = this.el.dataset.headerheight,
+				dataScrolltop = this.el.dataset.scrolltop,
+				dataScrollto = this.el.dataset.scrollto,
+				dataStartIndex = this.el.dataset.startIndex,
+				dataDelay = this.el.dataset.delay;
+
+			if (dataTemplate != undefined) dataOptions.initialTemplate = dataTemplate;
 			if (dataBreakpoints != undefined) dataOptions.breakpoints = this._handleDataBreakpoints(dataBreakpoints); 
-			if (dataHeaderHeight != undefined) dataOptions.headerHeight = dataHeaderHeight;
-						
+            if (dataHeaderHeight != undefined) dataOptions.headerHeight = dataHeaderHeight;
+            if (dataScrolltop != undefined) dataOptions.scrolltop = dataScrolltop;
+            if (dataScrollto != undefined) dataOptions.scrollto = dataScrollto;
+            if (dataStartIndex != undefined) dataOptions.startIndex = parseInt(dataStartIndex);
+            if (this.el.hasAttribute("data-multistep")) dataOptions.multistep = 1;
+            if (dataDelay != undefined) dataOptions.delay = parseInt(dataDelay);
+			
+            // js-options are overriddden if data-options are passed
+			this.options = options = _extend(options, dataOptions);
+			
+			// defaults if no options are passed
 			var defaults = {
+				initialTemplate : 'tab',
 				breakpoints : {
 					desktop: { template: 'tab', style: '' },
 					768: { template:'accordion', style: '' }
 				},
-				headerHeight : 0
+				headerHeight : 0,
+				scrolltop : 0,
+				scrollto : 'btn', // el, btn, item
+				multistep : 0,
+				startIndex: 0, // initial active tab index
+				delay: 0 // add a delay to ensure all elements inside are loaded
 			};
 			
+			// Set default options
 			this.options = {...defaults, ...options, ...dataOptions};
+
 			if( !('desktop' in this.options.breakpoints) ) this.options.breakpoints.desktop = { template: 'tab', style: '' };
 		},
 		_handleDataBreakpoints(str){
@@ -93,7 +125,7 @@ import "./sass/v23-togglebox.sass";
 						if(Array.isArray(options) && options.length && options[0]) {
 							_obj[options[0]] = { 
 								template: options[1],
-								style: options[2] || '',
+								style: options[2] || ''
 							};
 						}
 					}
@@ -111,33 +143,39 @@ import "./sass/v23-togglebox.sass";
 			return true;
 		},
 		_saveItems(){
-			var btns = this.el.getElementsByClassName('v23-togglebox__btn'), 
-				items = [];
+			var btns = this.nav.getElementsByClassName('v23-togglebox__btn');
+			this.btns = btns;
 			for (var i = 0; i < btns.length; i++) {
 				var boxid = btns[i].dataset.boxid;
 
 				if (boxid) {
-					var boxEl = this.el.querySelector(boxid);
+					var boxEl = this.itemsBox.querySelector(boxid);
 					if ( boxEl && boxEl.nodeType && boxEl.nodeType === 1 ) {
-						items.push({ btn: btns[i], box: boxEl });
+						this.items.push({ btn: btns[i], box: boxEl });
 					}
 						
 				}
 			}
-			return items;
 		},
 		_attach_click_events(){
-			_on(this.el, 'click', this._open_tab);
+			for (var i = 0; i < this.btns.length; i++) {
+				_on(this.btns[i], 'click', this._open_tab);
+			}
+
+			const go_to_step_btn = this.el.querySelectorAll('.go-to-step');
+			for (var i = 0; i < go_to_step_btn.length; i++) {
+				_on(go_to_step_btn[i], 'click', this._go_to_step);
+			}
 		},
 		_open_tab(event){
-			event.preventDefault();
+			// event.preventDefault();
 			var item = _hasClass(event.target, 'v23-togglebox__btn') ? event.target : _findAncestor(event.target, '.v23-togglebox__btn');
 			if(item) this._handle_active_class(item);
 		},
 		_handle_active_class(btn){
 			const currentBreakpoint = this._get_current_breakpoint(),
 				activeTemplate = this.options.breakpoints[currentBreakpoint].template; 
-
+				
 			if (btn) { // method is triggered by a user click event
 				for (var i = 0; i < this.items.length; i++) {
 					let item = this.el.querySelector( this.items[i].btn.dataset.boxid );
@@ -146,14 +184,43 @@ import "./sass/v23-togglebox.sass";
 						if (activeTemplate === 'accordion'){
 							_toggleClass(btn, 'active');
 							_toggleClass(item, 'active');
-							// _scrollTo(document.documentElement, (btn.offsetTop - this.options.headerHeight), 500);
 						} else {
 							_addClass(btn, 'active');
 							_addClass(item, 'active');	
 						}
+						
+						if(this.options.scrolltop){
+							// _scrollTo(document.documentElement, (btn.offsetTop - MV23_GLOBALS.headerHeight), 500);
+							var scrollToElement = null;
+							switch (this.options.scrollto) {
+								case 'el':
+									scrollToElement = $(this.el);
+									break;
+
+								case 'item':
+									scrollToElement = $(item);
+									break;
+							
+								default:
+									scrollToElement = $(btn);
+									break;
+							}
+							if( scrollToElement.length ){
+								$("html, body").animate({ 
+									scrollTop: ( scrollToElement.offset().top - MV23_GLOBALS.headerHeight) }, 
+									{ 
+										duration: 800, 
+										queue: false
+										// easing: 'easeOutCubic' 
+									}
+								);
+							}
+						} 
+
+						this._handle_hash_in_url(btn.dataset.boxid);
 					} else {
 						_removeClass(this.items[i].btn, 'active');
-						_removeClass(item, 'active');	
+						_removeClass(item, 'active');
 					}
 				};				
 			} else { // method is triggered on init or on resize
@@ -163,10 +230,48 @@ import "./sass/v23-togglebox.sass";
 				};				
 
 				if (activeTemplate === 'tab') {
-					_addClass(this.items[0].btn, 'active');
-					_addClass(this.items[0].box, 'active');	
+					let startIndex = this.options.startIndex;
+					_addClass(this.items[startIndex].btn, 'active');
+					_addClass(this.items[startIndex].box, 'active');	
 				}
 			}
+			if( this.options.multistep ) this._add_multistep_mode_classes();
+		},
+		_add_multistep_mode_classes(){
+			let foundActive = false;
+
+			for (var i = 0; i < this.btns.length; i++) {
+				let button = this.btns[i];
+				button.classList.remove('completed-step', 'pending-step');
+			
+				if (button.classList.contains('active')) {
+					foundActive = true;
+				} else if (!foundActive) {
+					button.classList.add('completed-step');
+				} else {
+					button.classList.add('pending-step');
+				}
+  			};
+		},
+		_go_to_step(ev){
+			const boxID = ev.target.dataset.boxid;
+			if(boxID){
+				const togglebox_btn = this.el.querySelector('.v23-togglebox__btn[data-boxid="'+boxID+'"]');
+				if( togglebox_btn ) togglebox_btn.click();
+			}
+		},
+		_handle_hash_in_url(hash = ''){
+			var urlObj = new URL(this.initialUrl);
+			urlObj.search = '';
+			urlObj.hash = '';
+			var cleanUrl = urlObj.toString();
+			history.pushState({},null,cleanUrl+hash);
+		},
+		_attach_hashchange_events(){
+			var that = this;
+			window.addEventListener('mv23ReplaceState', function(){
+				that._change_active_tab_if_hash_in_url();
+			}, true);
 		},
 		_change_active_tab_if_hash_in_url(){
 			if(window.location.hash) {
@@ -251,7 +356,7 @@ import "./sass/v23-togglebox.sass";
 				if(options.id === undefined) return;
 
 				const currentBreakpoint = this._get_current_breakpoint(),
-					activeTemplate = this.options.breakpoints[currentBreakpoint].template; 
+					activeTemplate = this.options.breakpoints[currentBreakpoint].template;
 
 				var newBtn = this.items[0].btn.cloneNode(true);
 				newBtn.innerHTML = (options.btn && options.btn.content) ? options.btn.content : 'New Item';
@@ -299,7 +404,7 @@ import "./sass/v23-togglebox.sass";
 					}
 				} else {
 					const currentBreakpoint = this._get_current_breakpoint(),
-						activeTemplate = this.options.breakpoints[currentBreakpoint].template; 
+						activeTemplate = this.options.breakpoints[currentBreakpoint].template;
 					if(activeTemplate == 'tab' && _hasClass(deletedItem[0].btn,'active')){
 						this.items[(this.items.length - 1)].btn.click();
 					}
@@ -307,6 +412,18 @@ import "./sass/v23-togglebox.sass";
 				if(typeof options.afterRemoveItem == 'function') options.afterRemoveItem(deletedItem);
 			}
 		}
+	};
+
+	function _extend(dst, src) {
+		if (dst && src) {
+			for (var key in src) {
+				if (src.hasOwnProperty(key)) {
+					dst[key] = src[key];
+				}
+			}
+		}
+
+		return dst;
 	};
 
 	function _on(el, event, fn) {
