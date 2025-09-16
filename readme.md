@@ -64,22 +64,25 @@ $ cd v23-togglebox
 Install dependencies
 
 ```sh
-$ npm i
+$ pnpm install
 ```
 
 Start the dev server
 
 ```sh
-$ npm run start
+$ pnpm run start
 ```
 
 Build the source
 
 ```sh
-$ npm run build
+$ pnpm run build
 ```
 
 ## Changelog
+
+- 19-09-2025
+- npm migrated to pnpm
 
 9.0.0 (16-07-2025)
 - Merge with changes made in mv23theme repo
