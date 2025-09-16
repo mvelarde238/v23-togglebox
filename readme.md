@@ -83,6 +83,7 @@ $ pnpm run build
 
 - 19-09-2025
 - npm migrated to pnpm
+- add sass-loader "modern" configuration
 
 9.0.0 (16-07-2025)
 - Merge with changes made in mv23theme repo
