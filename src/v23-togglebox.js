@@ -23,7 +23,7 @@ import "./sass/v23-togglebox.sass";
 	"use strict";
 
 	var instances = [],
-		version = '9.0.0',
+		version = '9.0.2',
 		timers = {};
 
 	/**
@@ -111,6 +111,9 @@ import "./sass/v23-togglebox.sass";
 			
 			// Set default options
 			this.options = {...defaults, ...options, ...dataOptions};
+
+			// Ensure device-ids on breakpoints are translated
+			this.options.breakpoints = this._translateBreakpoints( this.options.breakpoints );
 
 			if( !('desktop' in this.options.breakpoints) ) this.options.breakpoints.desktop = { template: 'tab', style: '' };
 		},
@@ -324,6 +327,22 @@ import "./sass/v23-togglebox.sass";
 			} 
 
 			return breakpoint || 'desktop';
+		},
+		_translateBreakpoints( breakpoints ){
+			var translated = {},
+				deviceIdMap = {
+					'desktop': 'desktop',
+					'tablet': 992,
+					'mobileLandscape': 768,
+					'mobilePortrait': 480
+				};
+
+			for (var bp in breakpoints) {
+				var translatedBp = deviceIdMap[bp] || bp;
+				translated[translatedBp] = breakpoints[bp];
+			}
+
+			return translated;
 		},
 		_attach_resize_events(){
 			var timeToWaitForLast = 100, 

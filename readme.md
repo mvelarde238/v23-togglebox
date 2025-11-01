@@ -81,6 +81,9 @@ $ pnpm run build
 
 ## Changelog
 
+9.0.2 (11-01-2025)
+- Implements _translateBreakpoints() function to map breakpoint keys (desktop, tablet, mobileLandscape, mobilePortrait) to their corresponding pixel values.
+
 - 19-09-2025
 - npm migrated to pnpm
 - add sass-loader "modern" configuration

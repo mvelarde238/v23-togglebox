@@ -2,6 +2,9 @@ export default {
     'tabs-demo': {
         breakpoints: {
             desktop: {template: 'tab', style: ''},
+            // tablet: {template: 'tab', style: 'tab-style-3'}, // 992px
+            // mobileLandscape: {template: 'tab', style: 'tab-style-5'}, // 768px
+            // mobilePortrait: {template: 'tab', style: 'tab-style-1'}, // 480px
             1440: {template: 'tab', style: 'tab-style-2'},
             1024: {template: 'tab', style: 'tab-style-4'},
             768: {template: 'tab', style: 'tab-style-3'},
