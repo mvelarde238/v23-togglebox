@@ -7,7 +7,7 @@
 
 <div id="elementID" class="togglebox">
 	<div class="togglebox__nav">
-		<p class="togglebox__btn" data-boxid="#boxID">...</p>
+		<a class="togglebox__btn" data-boxid="#boxID">...</a>
 		...
 	</div>
 	<div class="togglebox__items">
@@ -19,7 +19,7 @@
 
 ### JS
 ```js
-cont options = {	
+const options = {	
 	headerHeight : 100,
 	breakpoints : {}
 }
