@@ -23,7 +23,7 @@ import "./sass/v23-togglebox.sass";
 	"use strict";
 
 	var instances = [],
-		version = '9.0.2',
+		version = '10.0.0',
 		timers = {};
 
 	/**
@@ -33,7 +33,7 @@ import "./sass/v23-togglebox.sass";
 	 */
 	function V23_ToggleBox(el, options) {
 		if (!(el && el.nodeType && el.nodeType === 1)) {
-			console.log( 'V23 ToggleBox Error: `el` must be HTMLElement, and not ' + {}.toString.call(el) );
+			console.log( 'ToggleBox Error: `el` must be HTMLElement, and not ' + {}.toString.call(el) );
 			return;
 		}
 
@@ -52,8 +52,8 @@ import "./sass/v23-togglebox.sass";
 			}
 		}
 
-		this.nav = this.el.getElementsByClassName('v23-togglebox__nav')[0];
-		this.itemsBox = this.el.getElementsByClassName('v23-togglebox__items')[0];
+		this.nav = this.el.getElementsByClassName('togglebox__nav')[0];
+		this.itemsBox = this.el.getElementsByClassName('togglebox__items')[0];
 
 		this.items = [];
 		this._saveItems();
@@ -65,7 +65,7 @@ import "./sass/v23-togglebox.sass";
 				this._attach_resize_events();
 				this._attach_hashchange_events();
 	
-				_addClass(this.el, 'v23-togglebox-initialized');
+				_addClass(this.el, 'togglebox-initialized');
 			}, this.options.delay);
 		}
 	};
@@ -139,14 +139,14 @@ import "./sass/v23-togglebox.sass";
 		_createInstance(el){
 			for (var i = 0; i < instances.length; i++) {
 				if (instances[i].el === el) {
-					console.log('V23 ToggleBox Error: el elemento id:'+el.id+' | class:'+el.className+' solo puede ser instanciado una vez.');
+					console.log('ToggleBox Error: el elemento id:'+el.id+' | class:'+el.className+' solo puede ser instanciado una vez.');
 					return false;
 				}
 			}
 			return true;
 		},
 		_saveItems(){
-			var btns = this.nav.getElementsByClassName('v23-togglebox__btn');
+			var btns = this.nav.getElementsByClassName('togglebox__btn');
 			this.btns = btns;
 			for (var i = 0; i < btns.length; i++) {
 				var boxid = btns[i].dataset.boxid;
@@ -172,7 +172,7 @@ import "./sass/v23-togglebox.sass";
 		},
 		_open_tab(event){
 			// event.preventDefault();
-			var item = _hasClass(event.target, 'v23-togglebox__btn') ? event.target : _findAncestor(event.target, '.v23-togglebox__btn');
+			var item = _hasClass(event.target, 'togglebox__btn') ? event.target : _findAncestor(event.target, '.togglebox__btn');
 			if(item) this._handle_active_class(item);
 		},
 		_handle_active_class(btn){
@@ -259,7 +259,7 @@ import "./sass/v23-togglebox.sass";
 		_go_to_step(ev){
 			const boxID = ev.target.dataset.boxid;
 			if(boxID){
-				const togglebox_btn = this.el.querySelector('.v23-togglebox__btn[data-boxid="'+boxID+'"]');
+				const togglebox_btn = this.el.querySelector('.togglebox__btn[data-boxid="'+boxID+'"]');
 				if( togglebox_btn ) togglebox_btn.click();
 			}
 		},
@@ -564,7 +564,7 @@ import "./sass/v23-togglebox.sass";
 	};
 
 	V23_ToggleBox.init = function (options) {
-		var toggleboxes = document.getElementsByClassName('v23-togglebox');
+		var toggleboxes = document.getElementsByClassName('togglebox');
 
         for (var i = 0; i < toggleboxes.length; i++) {
             V23_ToggleBox.create( toggleboxes[i], options);

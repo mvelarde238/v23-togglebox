@@ -5,13 +5,13 @@
 <link href="./dist/v23-togglebox.css" rel="stylesheet">
 <script src="./dist/v23-togglebox.js"></script>
 
-<div id="elementID" class="v23-togglebox">
-	<div class="v23-togglebox__nav">
-		<p class="v23-togglebox__btn" data-boxid="#boxID">...</p>
+<div id="elementID" class="togglebox">
+	<div class="togglebox__nav">
+		<p class="togglebox__btn" data-boxid="#boxID">...</p>
 		...
 	</div>
-	<div class="v23-togglebox__items">
-		<div id="boxID" class="v23-togglebox__item">...</div>
+	<div class="togglebox__items">
+		<div id="boxID" class="togglebox__item">...</div>
 		...
 	</div>
 </div>
@@ -80,6 +80,9 @@ $ pnpm run build
 ```
 
 ## Changelog
+
+10.0.0 (02-04-2026)
+- Remove v23- prefix from class names and data attributes for better readability and maintainability.
 
 9.0.2 (11-01-2025)
 - Implements _translateBreakpoints() function to map breakpoint keys (desktop, tablet, mobileLandscape, mobilePortrait) to their corresponding pixel values.
