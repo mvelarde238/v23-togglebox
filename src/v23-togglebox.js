@@ -23,7 +23,7 @@ import "./sass/v23-togglebox.sass";
 	"use strict";
 
 	var instances = [],
-		version = '10.0.0',
+		version = '10.1.0',
 		timers = {};
 
 	/**
@@ -63,7 +63,7 @@ import "./sass/v23-togglebox.sass";
 				this._handle_template();
 				this._change_active_tab_if_hash_in_url();
 				this._attach_resize_events();
-				this._attach_hashchange_events();
+				this._attach_hash_change_events();
 	
 				_addClass(this.el, 'togglebox-initialized');
 			}, this.options.delay);
@@ -77,16 +77,12 @@ import "./sass/v23-togglebox.sass";
 				dataTemplate = this.el.dataset.template,
 				dataBreakpoints = this.el.dataset.breakpoints,
 				dataHeaderHeight = this.el.dataset.headerheight,
-				dataScrolltop = this.el.dataset.scrolltop,
-				dataScrollto = this.el.dataset.scrollto,
 				dataStartIndex = this.el.dataset.startIndex,
 				dataDelay = this.el.dataset.delay;
 
 			if (dataTemplate != undefined) dataOptions.initialTemplate = dataTemplate;
 			if (dataBreakpoints != undefined) dataOptions.breakpoints = this._handleDataBreakpoints(dataBreakpoints); 
-            if (dataHeaderHeight != undefined) dataOptions.headerHeight = dataHeaderHeight;
-            if (dataScrolltop != undefined) dataOptions.scrolltop = dataScrolltop;
-            if (dataScrollto != undefined) dataOptions.scrollto = dataScrollto;
+			if (dataHeaderHeight != undefined) dataOptions.headerHeight = dataHeaderHeight;
             if (dataStartIndex != undefined) dataOptions.startIndex = parseInt(dataStartIndex);
             if (this.el.hasAttribute("data-multistep")) dataOptions.multistep = 1;
             if (dataDelay != undefined) dataOptions.delay = parseInt(dataDelay);
@@ -97,13 +93,19 @@ import "./sass/v23-togglebox.sass";
 			// defaults if no options are passed
 			var defaults = {
 				initialTemplate : 'tab',
+				/**
+				 * Breakpoints object structure:
+				 * device-id || breakpoint-width : 
+				 * - template: 'tab' || 'accordion'
+				 * - style: '', 
+				 * - scroll_target: 'button' || 'item' || 'component' || ''
+				 * - animation: 'fadeIn' || string with animation name (optional, only used if different than fadeIn)
+				 */
 				breakpoints : {
-					desktop: { template: 'tab', style: '' },
-					768: { template:'accordion', style: '' }
+					desktop: { template: 'tab', style: '', scroll_target: '', animation: 'fadeIn' },
+					768: { template:'accordion', style: '', scroll_target: '', animation: 'fadeIn' },
 				},
 				headerHeight : 0,
-				scrolltop : 0,
-				scrollto : 'btn', // el, btn, item
 				multistep : 0,
 				startIndex: 0, // initial active tab index
 				delay: 0 // add a delay to ensure all elements inside are loaded
@@ -115,7 +117,9 @@ import "./sass/v23-togglebox.sass";
 			// Ensure device-ids on breakpoints are translated
 			this.options.breakpoints = this._translateBreakpoints( this.options.breakpoints );
 
-			if( !('desktop' in this.options.breakpoints) ) this.options.breakpoints.desktop = { template: 'tab', style: '' };
+			if( !('desktop' in this.options.breakpoints) ){
+				this.options.breakpoints.desktop = { template: 'tab', style: '', scroll_target: '', animation: 'fadeIn' };
+			} 
 		},
 		_handleDataBreakpoints(str){
 			var _obj = {},
@@ -128,7 +132,9 @@ import "./sass/v23-togglebox.sass";
 						if(Array.isArray(options) && options.length && options[0]) {
 							_obj[options[0]] = { 
 								template: options[1],
-								style: options[2] || ''
+								style: options[2] || '',
+								scroll_target: options[3] || '',
+								animation: options[4] || 'fadeIn'
 							};
 						}
 					}
@@ -191,36 +197,13 @@ import "./sass/v23-togglebox.sass";
 							_addClass(btn, 'active');
 							_addClass(item, 'active');	
 						}
-						
-						if(this.options.scrolltop){
-							// _scrollTo(document.documentElement, (btn.offsetTop - MV23_GLOBALS.headerHeight), 500);
-							var scrollToElement = null;
-							switch (this.options.scrollto) {
-								case 'el':
-									scrollToElement = $(this.el);
-									break;
 
-								case 'item':
-									scrollToElement = $(item);
-									break;
-							
-								default:
-									scrollToElement = $(btn);
-									break;
-							}
-							if( scrollToElement.length ){
-								$("html, body").animate({ 
-									scrollTop: ( scrollToElement.offset().top - MV23_GLOBALS.headerHeight) }, 
-									{ 
-										duration: 800, 
-										queue: false
-										// easing: 'easeOutCubic' 
-									}
-								);
-							}
-						} 
-
+						this._maybe_scroll_to_target();
 						this._handle_hash_in_url(btn.dataset.boxid);
+						
+						// Refresh ScrollTrigger breakpoints
+                		refreshScrollTriggerBreakpoints();
+
 					} else {
 						_removeClass(this.items[i].btn, 'active');
 						_removeClass(item, 'active');
@@ -270,7 +253,7 @@ import "./sass/v23-togglebox.sass";
 			var cleanUrl = urlObj.toString();
 			history.pushState({},null,cleanUrl+hash);
 		},
-		_attach_hashchange_events(){
+		_attach_hash_change_events(){
 			var that = this;
 			window.addEventListener('mv23ReplaceState', function(){
 				that._change_active_tab_if_hash_in_url();
@@ -288,7 +271,7 @@ import "./sass/v23-togglebox.sass";
 		_handle_template(){
 			var previousBreakpoint = this._get_previous_breakpoint(),
 				currentBreakpoint = this._get_current_breakpoint(),
-				{template, style} = this.options.breakpoints[currentBreakpoint];
+				{template, style, animation} = this.options.breakpoints[currentBreakpoint];
 				
 			if(currentBreakpoint != previousBreakpoint){
 				const previousTemplate = this.options.breakpoints[previousBreakpoint];
@@ -302,6 +285,7 @@ import "./sass/v23-togglebox.sass";
 
 				this.el.dataset.template = template;
 				this.el.dataset.style = style;
+				this.el.dataset.animation = animation;
 				this._handle_active_class();
 				this.options.previousBreakpoint = currentBreakpoint;
 			}
@@ -354,6 +338,46 @@ import "./sass/v23-togglebox.sass";
 					that._handle_template();
 				}, timeToWaitForLast, id);
 			}, true);
+		},
+		_maybe_scroll_to_target(){
+			const currentBreakpoint = this._get_current_breakpoint();
+			var breakpointScrollTarget = '';
+			if(this.options && this.options.breakpoints && this.options.breakpoints[currentBreakpoint]){
+				breakpointScrollTarget = this.options.breakpoints[currentBreakpoint].scroll_target || '';
+			}
+			if(breakpointScrollTarget){
+				var scrollTarget = null;
+				switch (breakpointScrollTarget) {
+					case 'component':
+						scrollTarget = $(this.el);
+						break;
+					case 'item':
+						scrollTarget = $(item);
+						break;
+					case 'button':
+						scrollTarget = $(btn);
+						break;
+					default:
+						scrollTarget = $(btn);
+						break;
+				}
+				if( scrollTarget.length ){
+					let scrollTargetPosition = scrollTarget.offset().top;
+
+					if( !MV23_GLOBALS.disableHeaderHeightCalculationOnAnchors ){
+						var bodyStyles = window.getComputedStyle(document.body);
+    					var sticky_header_height = bodyStyles.getPropertyValue('--sticky-header-height');
+						scrollTargetPosition = scrollTargetPosition - parseInt(sticky_header_height);
+					}
+
+					$("html, body").animate({ scrollTop: scrollTargetPosition }, 
+						{ 
+							duration: 800,
+							queue: false
+						}
+					);
+				}
+			}
 		},
 		/**
 	 	* Add a New Item
@@ -486,38 +510,10 @@ import "./sass/v23-togglebox.sass";
 		return { width:x,height:y };
 	};
 
-	function _scrollTo(element, to, duration) {
-    	var start = element.scrollTop,
-        	change = to - start,
-        	currentTime = 0,
-        	increment = 20;
-	        
-    	var animateScroll = function(){        
-        	currentTime += increment;
-        	var val = Math.easeInOutQuad(currentTime, start, change, duration);
-        	element.scrollTop = val;
-        	if(currentTime < duration) {
-            	setTimeout(animateScroll, increment);
-        	}
-    	};
-    	animateScroll();
-	};
-
 	function _findAncestor(el, selector) {
 		while ((el = el.parentElement) && !((el.matches || el.matchesSelector).call(el,selector)));
 		return el;
 	}
-
-	Math.easeInOutQuad = function (t, b, c, d) {
-		//t = current time
-		//b = start value
-		//c = change in value
-		//d = duration
-  		t /= d/2;
-    		if (t < 1) return c/2*t*t + b;
-    		t--;
-    		return -c/2 * (t*(t-2) - 1) + b;
-	};
 
 	function _cleanHash(hash){
 		// remove query vars

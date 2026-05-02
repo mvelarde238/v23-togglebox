@@ -44,7 +44,13 @@ V23_ToggleBox.create(
 | Option | Description | Default |
 |-|-|-
 | `headerHeight` | (optional) (integer) Used for scrolling when header is fixed | 0 |
-| `breakpoints` | (optional) (obj) Breakpoints to handle template and styles changes { (integer/'desktop') : {template: (string) accordion | tab, style: (string) }, ... } | { desktop: { template: 'tab', style: '' }, 768: { template:'accordion', style: '' } } |
+| `breakpoints` | (optional) (obj) Breakpoints to handle template and styles changes:
+{ (integer/'desktop') : {
+	template: (string) accordion, tab, ... 
+	style: (string) }, ... 
+	scroll_target: (string) button, item, component, ...
+	animation: (string) fadeIn, slideDown, ...
+} | { desktop: { template: 'tab', style: '' }, 768: { template:'accordion', style: '' } } |
 
 
 ## Download
@@ -80,6 +86,9 @@ $ pnpm run build
 ```
 
 ## Changelog
+
+10.1.0 (01-05-2026)
+- scroll_target and animation properties are now included in the devicesControl object, allowing for better control over the togglebox behavior across different devices and states
 
 10.0.0 (02-04-2026)
 - Remove v23- prefix from class names and data attributes for better readability and maintainability.
