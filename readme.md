@@ -44,13 +44,7 @@ V23_ToggleBox.create(
 | Option | Description | Default |
 |-|-|-
 | `headerHeight` | (optional) (integer) Used for scrolling when header is fixed | 0 |
-| `breakpoints` | (optional) (obj) Breakpoints to handle template and styles changes:
-{ (integer/'desktop') : {
-	template: (string) accordion, tab, ... 
-	style: (string) }, ... 
-	scroll_target: (string) button, item, component, ...
-	animation: (string) fadeIn, slideDown, ...
-} | { desktop: { template: 'tab', style: '' }, 768: { template:'accordion', style: '' } } |
+| `breakpoints` | (optional) (obj) Breakpoints to handle template and styles changes: (integer/'desktop') : template: (string) accordion, tab, ...  style: (string) ...  scroll_target: (string) button, item, component, ... animation: (string) fadeIn, slideDown, ... | { desktop: { template: 'tab', style: '' }, 768: { template:'accordion', style: '' } } |
 
 
 ## Download
