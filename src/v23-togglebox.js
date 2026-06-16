@@ -23,7 +23,7 @@ import "./sass/v23-togglebox.sass";
 	"use strict";
 
 	var instances = [],
-		version = '10.1.0',
+		version = '10.1.2',
 		timers = {};
 
 	/**
@@ -78,6 +78,7 @@ import "./sass/v23-togglebox.sass";
 				dataBreakpoints = this.el.dataset.breakpoints,
 				dataHeaderHeight = this.el.dataset.headerheight,
 				dataStartIndex = this.el.dataset.startIndex,
+				dataTabButtonBehavior = this.el.dataset.tabButtonBehavior,
 				dataDelay = this.el.dataset.delay;
 
 			if (dataTemplate != undefined) dataOptions.initialTemplate = dataTemplate;
@@ -85,6 +86,7 @@ import "./sass/v23-togglebox.sass";
 			if (dataHeaderHeight != undefined) dataOptions.headerHeight = dataHeaderHeight;
             if (dataStartIndex != undefined) dataOptions.startIndex = parseInt(dataStartIndex);
             if (this.el.hasAttribute("data-multistep")) dataOptions.multistep = 1;
+            if (dataTabButtonBehavior != undefined) dataOptions.tab_button_behavior = dataTabButtonBehavior;
             if (dataDelay != undefined) dataOptions.delay = parseInt(dataDelay);
 			
             // js-options are overriddden if data-options are passed
@@ -108,6 +110,7 @@ import "./sass/v23-togglebox.sass";
 				headerHeight : 0,
 				multistep : 0,
 				startIndex: 0, // initial active tab index
+				tab_button_behavior: 'default', // default || toggle
 				delay: 0 // add a delay to ensure all elements inside are loaded
 			};
 			
@@ -194,11 +197,17 @@ import "./sass/v23-togglebox.sass";
 							_toggleClass(btn, 'active');
 							_toggleClass(item, 'active');
 						} else {
-							_addClass(btn, 'active');
-							_addClass(item, 'active');	
+							const tabButtonBehavior = this.options.tab_button_behavior || 'default';
+							if(tabButtonBehavior == 'toggle'){
+								_toggleClass(btn, 'active');
+								_toggleClass(item, 'active');
+							} else {
+								_addClass(btn, 'active');
+								_addClass(item, 'active');	
+							}
 						}
 
-						this._maybe_scroll_to_target();
+						this._maybe_scroll_to_target(btn, item);
 						this._handle_hash_in_url(btn.dataset.boxid);
 						
 						// Refresh ScrollTrigger breakpoints
@@ -217,8 +226,8 @@ import "./sass/v23-togglebox.sass";
 
 				if (activeTemplate === 'tab') {
 					let startIndex = this.options.startIndex;
-					_addClass(this.items[startIndex].btn, 'active');
-					_addClass(this.items[startIndex].box, 'active');	
+					_addClass(this.items[startIndex]?.btn, 'active');
+					_addClass(this.items[startIndex]?.box, 'active');	
 				}
 			}
 			if( this.options.multistep ) this._add_multistep_mode_classes();
@@ -339,7 +348,7 @@ import "./sass/v23-togglebox.sass";
 				}, timeToWaitForLast, id);
 			}, true);
 		},
-		_maybe_scroll_to_target(){
+		_maybe_scroll_to_target(btn, item){
 			const currentBreakpoint = this._get_current_breakpoint();
 			var breakpointScrollTarget = '';
 			if(this.options && this.options.breakpoints && this.options.breakpoints[currentBreakpoint]){
@@ -474,18 +483,18 @@ import "./sass/v23-togglebox.sass";
 	};
 
 	function _hasClass(element, cls) {
-		return (' ' + element.className + ' ').indexOf(' ' + cls + ' ') > -1;
+		return (' ' + element?.className + ' ').indexOf(' ' + cls + ' ') > -1;
 	};
 
 	function _addClass(elem, className) {
 		// TODO : ELEM IS ARRAY
-		if (!_hasClass(elem, className)) {
+		if (elem && !_hasClass(elem, className)) {
 			elem.className += ' ' + className;
 		}
 	};	
 
 	function _removeClass(elem, className) {
-		var newClass = ' ' + elem.className.replace( /[\t\r\n]/g, ' ') + ' ';
+		var newClass = ' ' + elem?.className.replace( /[\t\r\n]/g, ' ') + ' ';
 		if (_hasClass(elem, className)) {
 			while (newClass.indexOf(' ' + className + ' ') >= 0 ) {
 				newClass = newClass.replace(' ' + className + ' ', ' ');

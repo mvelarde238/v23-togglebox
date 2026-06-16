@@ -45,6 +45,7 @@ V23_ToggleBox.create(
 |-|-|-
 | `headerHeight` | (optional) (integer) Used for scrolling when header is fixed | 0 |
 | `breakpoints` | (optional) (obj) Breakpoints to handle template and styles changes: (integer/'desktop') : template: (string) accordion, tab, ...  style: (string) ...  scroll_target: (string) button, item, component, ... animation: (string) fadeIn, slideDown, ... | { desktop: { template: 'tab', style: '' }, 768: { template:'accordion', style: '' } } |
+| `tab_button_behavior` | (optional) (string) Defines the behavior of tab buttons when clicked: 'default' (default) - clicking an active tab button does nothing; 'toggle' - clicking an active tab button will toggle its active state, allowing it to be deactivated. | 'default' |
 
 
 ## Download
@@ -80,6 +81,12 @@ $ pnpm run build
 ```
 
 ## Changelog
+
+10.1.2 (16-06-2026)
+- tab_button_behavior option added to define the behavior of tab buttons when clicked, allowing for more flexible interaction patterns based on user preferences.
+
+10.1.1 (?)
+- startIndex option added to allow developers to specify which togglebox item should be active by default when the component is initialized, enhancing customization options for different use cases.
 
 10.1.0 (01-05-2026)
 - scroll_target and animation properties are now included in the devicesControl object, allowing for better control over the togglebox behavior across different devices and states
