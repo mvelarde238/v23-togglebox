@@ -1,14 +1,22 @@
-@import "variables"
+@import "animations"
     
+:root
+    --primary-color: #007bff
+    --primary-color-light: #8abaea
+    --primary-color-lighter: #e1eefb
+    --bold-font-weight: 600
+
 body
     display: flex
     align-items: center
     justify-content: center
     height: 100vh
-    background-color: var(--ui-color-2, #{$ui-color-2})
+    background-color: #f8f9fa
     font-family: 'Helvetica', sans-serif
     font-size: 15px
     line-height: 25px
+    *
+        box-sizing: border-box
 
 #root
     width: 98%

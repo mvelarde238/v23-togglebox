@@ -1,21 +1,28 @@
-#{$namespace}[data-style="tab-style-4"]
-    #{$namespace}__nav
+.togglebox[data-style="tab-style4"]
+
+    & > #{$tgb}__nav
         display: flex
         flex-wrap: wrap
-    #{$namespace}__btn
-        flex-grow: 1
-        text-align: center
-        margin: 0
-        padding: 15px 30px
-        &:not(.active)
-            border-top: 2px solid var(--ui-color-2, #{$ui-color-2})
-            border-bottom: 2px solid var(--ui-color-2, #{$ui-color-2})
-        &.active, &:hover
-            border-top: 2px solid var(--ui-color-1, #{$ui-color-1})
-            border-bottom: 2px solid var(--ui-color-1, #{$ui-color-1})
 
-.text-color-2
-    #{$namespace}[data-style="tab-style-4"]
-        #{$namespace}__btn
-            &:not(.active)
-                border-color: currentcolor
+    & > #{$tgb}__nav > #{$tgb}__btn
+        flex-grow: 1
+        padding: 1em 15px
+        display: inline-flex
+        gap: .8em
+        align-items: center
+        justify-content: center
+        border-top: 2px solid var(--ui-color-3)
+        border-bottom: 2px solid var(--ui-color-3)
+        transition: border-color .3s
+        .togglebox__icon
+            margin-right: 0
+        &:hover
+            border-color: var(--ui-color-2)
+        &.active
+            border-color: var(--ui-color-1)
+    
+    & > #{$tgb}__items > #{$tgb}__item.active
+        padding: 2em 1em
+    
+    & > #{$tgb}__nav > #{$tgb}__btn > #{$tgb}__subtitle
+        margin-top: 0

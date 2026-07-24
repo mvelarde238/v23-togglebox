@@ -1,0 +1,21 @@
+.togglebox[data-style="vertical-tabs"]
+    display: flex
+    justify-content: space-between
+    gap: 15px
+    
+    & > #{$tgb}__nav
+        width: 300px
+        flex-shrink: 0
+
+    & > #{$tgb}__items
+        flex-grow: 1
+        width: 100%
+
+    & > #{$tgb}__nav > #{$tgb}__btn
+        margin: 0
+        display: block
+        &.active, &:hover
+            color: var(--ui-color-1)
+
+    & > #{$tgb}__actions
+        @extend %vertical-actions

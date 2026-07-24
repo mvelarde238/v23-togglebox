@@ -1,33 +1,38 @@
-#{$namespace}[data-style="accordion-style-2"]
-    #{$namespace}__btn
-        border: 1px solid var(--ui-color-2, #{$ui-color-2})
+.togglebox[data-style="accordion-style2"]
+    --icon-size: 1.5em
+
+    & > #{$tgb}__items > #{$tgb}__btn
+        display: block
+        border: 1px solid var(--ui-color-2)
         border-radius: 6px
         margin-bottom: 4px
-        padding: 20px 40px
-        &::before
-            right: 30px
+        padding: 1.4em 2em
+        position: relative
+        transition: 200ms border-color, 200ms background-color, 200ms color
+        
+        #{$tgb}__state-icon
+            @extend %accordion-state-icon
+            
         &.active
-            border: 1px solid var(--ui-color-1, #{$ui-color-1})
             margin-bottom: 0
             border-radius: 6px 6px 0 0
             border-bottom: 0
-        &:hover, &.active
-            background-color: var(--ui-color-2, #{$ui-color-2})
 
-    #{$namespace}__item
-        padding: 0 40px 30px 40px
+        &:hover, &.active
+            background-color: var(--ui-color-3)
+            color: var(--ui-color-1)
+
+    & > #{$tgb}__items > #{$tgb}__item
+        padding: 0 2em 1.8em 2em
         &.active
-            border: 1px solid var(--ui-color-1, #{$ui-color-1})
-            margin-bottom: 20px
+            border: 1px solid var(--ui-color-2)
+            margin-bottom: 5px
             border-top: 0
             border-radius: 0 0 6px 6px
-            background-color: var(--ui-color-2, #{$ui-color-2})
+            background-color: var(--ui-color-3)
 
-.text-color-2
-    #{$namespace}[data-style="accordion-style-2"]
-        #{$namespace}__btn
-            border-color: currentcolor
-        #{$namespace}__item,
-        #{$namespace}__btn
-            &:hover, &.active
-                background-color: transparent
+    & > #{$tgb}__items > #{$tgb}__btn > #{$tgb}__subtitle
+        display: inline-block
+        margin-left: .5em
+        &::before
+            content: '- '

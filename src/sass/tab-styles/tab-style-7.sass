@@ -1,0 +1,50 @@
+@mixin sombra
+    box-shadow: calc( var(--shadow-separation) * -1 ) var(--shadow-separation) 0 var(--ui-color-2)
+
+.togglebox[data-style="tab-style7"]
+    display: flex
+    justify-content: space-between
+    --shadow-separation: 5px
+
+    & > #{$tgb}__nav
+        width: 30%
+        margin-top: 60px
+
+    & > #{$tgb}__items
+        width: 70%
+        border: 1px solid var(--ui-color-2)
+        background-color: var(--ui-color-3)
+        padding: 40px
+        @include sombra
+
+    & > #{$tgb}__nav > #{$tgb}__btn
+        display: block
+        padding: 15px 15px
+        position: relative
+        transition: 200ms all
+        &:not(.active)
+            border-bottom: 1px solid var(--ui-color-2)
+            &:hover
+                background-color: var(--ui-color-3)
+                color: var(--ui-color-1)
+                @include sombra
+
+        &.active
+            background-color: var(--ui-color-3)
+            border: 1px solid var(--ui-color-2)
+            border-right: 0
+            @include sombra
+            &:before
+                content: ''
+                position: absolute
+                top: 0
+                right: -1px
+                height: 100%
+                width: 1px
+                background-color: var(--ui-color-3)
+
+    & > #{$tgb}__nav > #{$tgb}__btn > #{$tgb}__title
+        margin-right: .8em
+
+    & > #{$tgb}__actions
+        @extend %vertical-actions

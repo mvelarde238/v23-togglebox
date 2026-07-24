@@ -1,20 +1,30 @@
-#{$namespace}[data-style="tab-style-5"]
+.togglebox[data-style="tab-style5"]
     display: flex
     justify-content: space-between
+    gap: 2em
 
-    #{$namespace}__nav
+    & > #{$tgb}__nav
         width: 300px
-        min-width: 80px
+        flex-shrink: 0
 
-    #{$namespace}__items
-        width: 100%
+    & > #{$tgb}__items
+        flex-grow: 1
 
-    #{$namespace}__btn
+    & > #{$tgb}__nav > #{$tgb}__btn
         display: block
         padding: 15px 15px
         border-radius: 8px
         margin-bottom: 2px
-        transition: 500ms background-color
+        color: inherit
+        border: 1px solid transparent
+        transition: 300ms all
         &.active, &:hover
-            background-color: var(--ui-color-1, #{$ui-color-1})
-            color: #fff
+            background-color: var(--ui-color-3)
+            border: 1px solid var(--ui-color-2)
+            color: var(--ui-color-1)
+
+    & > #{$tgb}__nav > #{$tgb}__btn > #{$tgb}__title
+        margin-right: .8em
+    
+    & > #{$tgb}__actions
+        @extend %vertical-actions

@@ -1,74 +1,43 @@
-@mixin sombra
-    box-shadow: -13px 13px 0 var(--ui-color-2, #{$ui-color-2})
-
-#{$namespace}[data-style="tab-style-2"]
+.togglebox[data-style="tab-style2"]
+    --icon-size: 1.5em
     display: flex
     justify-content: space-between
 
-    #{$namespace}__nav
+    & > #{$tgb}__nav
         width: 30%
-        margin-top: 60px
 
-    #{$namespace}__items
+    & > #{$tgb}__items
         width: 70%
-        border: 1px solid var(--ui-color-2, #{$ui-color-2})
-        background-color: #fff
-        @include sombra
+        border-top: 1px solid var(--ui-color-2)
+        border-right: 1px solid var(--ui-color-2)
+        border-radius: 0 15px 0 0
 
-    #{$namespace}__item
-        padding: 40px
+    & > #{$tgb}__items > #{$tgb}__item.active
+        padding: 40px 20px
 
-    #{$namespace}__btn
-        display: block
-        width: 100%
-        padding: 15px 15px
-        margin: 0
+    & > #{$tgb}__nav > #{$tgb}__btn
+        padding: 15px
+        margin-bottom: 5px
         position: relative
         transition: 200ms all
-        img
-            height: 15px
-            vertical-align: middle
-        img, span
-            margin-bottom: 0
-            margin-right: 15px
+        border-radius: 3px
+        border: 1px solid var(--ui-color-2)
+        display: inline-block
+        width: 100%
+        &.active, &:hover
+            background-color: var(--ui-color-3)
+        &.active:after
+            content: "\F231"
+            font-family: 'bootstrap-icons' !important
+            line-height: 100%
+            position: absolute
+            top: 15px
+            right: 0
+            color: var(--ui-color-1)
+            transform: translateX(100%)
+        
+    & > #{$tgb}__nav > #{$tgb}__btn > #{$tgb}__title
+        font-weight: var(--bold-font-weight)
 
-        &:not(.active)
-            border-bottom: 1px solid var(--ui-color-2, #{$ui-color-2})
-            &:hover
-                background-color: #fff
-                color: var(--ui-color-1, #{$ui-color-1})
-                @include sombra
-
-        &.active
-            background-color: #fff
-            border: 1px solid var(--ui-color-2, #{$ui-color-2})
-            border-right: 0
-            @include sombra
-            &:before
-                content: ''
-                position: absolute
-                top: 0
-                right: -1px
-                height: 100%
-                width: 1px
-                background-color: #fff
-
-.text-color-2
-    #{$namespace}[data-style="tab-style-2"] 
-        #{$namespace}__items
-            background-color: transparent
-            border-color: var(--ui-color-1, #{$ui-color-1})
-            box-shadow: initial
-            
-        #{$namespace}__btn
-            &.active
-                background-color: transparent
-                box-shadow: initial
-                border-color: var(--ui-color-1, #{$ui-color-1})
-                &:before
-                    background-color: var(--ui-color-1, #{$ui-color-1})
-            &:not(.active)
-                border-color: var(--ui-color-1, #{$ui-color-1})
-                &:hover
-                    background-color: transparent
-                    box-shadow: initial
+    & > #{$tgb}__actions
+        @extend %vertical-actions

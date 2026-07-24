@@ -1,23 +1,24 @@
-.togglebox[data-style="accordion-style1"]
-    border: 1px solid var(--ui-color-2)
-    border-radius: 5px
+.togglebox[data-style="accordion-style3"]
 
     & > #{$tgb}__items > #{$tgb}__btn
-        padding: 1em 2.2em 1em 1.2em
+        padding: 1.4em 2.8em 1.4em 0
         position: relative
         display: inline-block
         width: 100%
-        border-bottom: 1px solid var(--ui-color-2)
+        border-bottom: 1px solid
         transition: 200ms all
-        &.active,
         &:hover
             background-color: var(--ui-color-3)
+        &.active
+            border-bottom: 0
 
         #{$tgb}__state-icon
             @extend %accordion-state-icon
-        
-    & > #{$tgb}__items > #{$tgb}__btn > #{$tgb}__title
-        font-weight: var(--bold-font-weight)
+            right: 0
+            padding: .55em
+            background-color: var(--ui-color-1)
+            color: #fff
+            border-radius: 50%
 
     & > #{$tgb}__items > #{$tgb}__btn > #{$tgb}__subtitle
         display: inline-block
@@ -26,4 +27,4 @@
             content: '- '
     
     & > #{$tgb}__items > #{$tgb}__item
-        padding: 1.2em
+        padding: 1.8em 0

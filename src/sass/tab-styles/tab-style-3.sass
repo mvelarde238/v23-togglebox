@@ -1,24 +1,41 @@
-#{$namespace}[data-style="tab-style-3"]
-    #{$namespace}__nav
-        background-color: var(--ui-color-2, #{$ui-color-2})
+.togglebox[data-style="tab-style3"]
+
+    & > #{$tgb}__nav
+        background-color: var(--ui-color-3)
         border-radius: 40px
         padding: 4px
-    #{$namespace}__btn
+
+    & > #{$tgb}__nav > #{$tgb}__btn
         margin-right: 4px
-        padding: 12px 30px
+        padding: 16px 30px
         border-radius: 40px
         transition: 500ms background-color
+        display: inline-block
+        color: var(--ui-color-1)
+        display: inline-flex
+        gap: .8em
+        align-items: center
+        img, i
+            margin-right: 0
         &.active, &:hover
             background-color: #fff
         &.active
-            box-shadow: 0 0 23px var(--ui-color-1, #{$ui-color-1})
+            box-shadow: 0 0 23px var(--ui-color-2)
+    
+    & > #{$tgb}__items > #{$tgb}__item.active
+        padding: 2em 1em
 
-.text-color-2
-    #{$namespace}[data-style="tab-style-3"]
-        #{$namespace}__nav
-            background-color: var(--ui-color-1, #{$ui-color-1})
-        #{$namespace}__btn
-            &.active, &:hover, &:not(.active):hover
-                color: var(--ui-color-1, #{$ui-color-1})
-            &:not(.active)
-                color: #fff 
+    & > #{$tgb}__nav > #{$tgb}__btn > #{$tgb}__subtitle
+        margin-top: 0
+
+.dark-mode #{$tgb}[data-style="tab-style3"] 
+    & > #{$tgb}__nav > #{$tgb}__btn
+        color: inherit
+        &.active, &:hover
+            background-color: var(--ui-color-2)
+
+.light-mode #{$tgb}[data-style="tab-style3"]
+    & > #{$tgb}__nav > #{$tgb}__btn
+        color: var(--ui-color-1)
+        &.active, &:hover
+            background-color: #fff

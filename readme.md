@@ -82,6 +82,9 @@ $ pnpm run build
 
 ## Changelog
 
+10.1.3 (23-07-2026)
+- Sync src files with mv23theme repo to ensure consistency and compatibility across related projects, improving maintainability and reducing potential integration issues.
+
 10.1.2 (16-06-2026)
 - tab_button_behavior option added to define the behavior of tab buttons when clicked, allowing for more flexible interaction patterns based on user preferences.
 
