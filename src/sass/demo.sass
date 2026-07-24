@@ -3,11 +3,17 @@
 :root
     --primary-color: #007bff
     --primary-color-light: #8abaea
-    --primary-color-lighter: #e1eefb
+    --primary-color-lighter: #f3f8fe
     --bold-font-weight: 600
+    // a11y
+    --focus-width: 2px
+    --focus-offset: 2px
+    --focus-color: var(--primary-color, #007bff)
+    --focus-outline: var(--focus-width) solid var(--focus-color)
 
 body
     display: flex
+    flex-direction: column
     align-items: center
     justify-content: center
     height: 100vh

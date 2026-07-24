@@ -28,6 +28,14 @@ $tgb: '.togglebox' !default
             display: none
     &__btn
         cursor: pointer
+        // override default button styles
+        border: none
+        background: none
+        text-align: left
+        // a11y
+        &:focus-visible
+            outline: var(--focus-outline)
+            outline-offset: var(--focus-offset)
 
     &__icon,
     &__title,
@@ -55,7 +63,19 @@ $tgb: '.togglebox' !default
         height: 100%
 
     &__item
-        animation: var(--item-animation) 300ms ease
+        animation: var(--item-animation) 300ms ease        
+
+    // Screen reader only utility
+    .sr-only
+        position: absolute
+        width: 1px
+        height: 1px
+        padding: 0
+        margin: -1px
+        overflow: hidden
+        clip: rect(0, 0, 0, 0)
+        white-space: nowrap
+        border: 0
 
 @import "tab-styles/tab-style-1"
 @import "tab-styles/tab-style-2"
@@ -71,3 +91,10 @@ $tgb: '.togglebox' !default
 @import "accordion-styles/accordion-style-2"
 @import "accordion-styles/accordion-style-3"
 @import "accordion-styles/vertical-accordion"
+
+@media (prefers-reduced-motion: reduce)
+    .togglebox
+        &__btn
+            transition: none !important
+        &__item
+            animation: none !important

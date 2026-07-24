@@ -6,16 +6,20 @@
 <script src="./dist/v23-togglebox.js"></script>
 
 <div id="elementID" class="togglebox">
-	<div class="togglebox__nav">
-		<a class="togglebox__btn" data-boxid="#boxID">...</a>
+	<div class="togglebox__nav" role="tablist">
+		<button class="togglebox__btn" data-boxid="#boxID"
+			role="tab" aria-selected="true" aria-controls="boxID">...</button>
 		...
 	</div>
 	<div class="togglebox__items">
-		<div id="boxID" class="togglebox__item">...</div>
+		<div id="boxID" class="togglebox__item"
+			role="tabpanel" aria-labelledby="tab-boxID">...</div>
 		...
 	</div>
 </div>
 ```
+
+> **Note:** The component automatically manages ARIA attributes (`role`, `aria-selected`, `aria-expanded`, `aria-controls`, `aria-labelledby`) and keyboard navigation (Arrow keys, Home, End). Buttons should be `<button>` elements or elements with `role="button"`. If buttons have no `id`, the library generates one with the `tab-` prefix.
 
 ### JS
 ```js
@@ -81,6 +85,18 @@ $ pnpm run build
 ```
 
 ## Changelog
+
+10.2.0 (24-07-2026)
+- Accessibility improvements: 
+* 1.3.1 Info and Relationships: Roles ARIA tab/tabpanel/tablist
+* 1.4.3 Contrast: Focus-visible with outline and color contrast
+* 2.1.1 Keyboard: complete navigation with arrow keys, Home/End
+* 2.4.3 Focus Order: tabindex managed correctly
+* 2.4.7 Focus Visible: `:focus-visible` with outline
+* 2.4.6 Headings and Labels: Buttons with textual content
+* 4.1.2 Name, Role, Value: roles + aria-selected/expanded + aria-controls
+* 7.2.5 Motion: `prefers-reduced-motion`
+* 1.3.5 Identify Input Purpose
 
 10.1.3 (23-07-2026)
 - Sync src files with mv23theme repo to ensure consistency and compatibility across related projects, improving maintainability and reducing potential integration issues.

@@ -23,7 +23,7 @@ import "./sass/v23-togglebox.sass";
 	"use strict";
 
 	var instances = [],
-		version = '10.1.2',
+		version = '10.2.0',
 		timers = {};
 
 	/**
@@ -57,9 +57,11 @@ import "./sass/v23-togglebox.sass";
 
 		this.items = [];
 		this._saveItems();
+		this._create_live_region();
 		if (this.items.length > 0) {
 			setTimeout(() => {
 				this._attach_click_events();
+				this._attach_keyboard_events();
 				this._handle_template();
 				this._change_active_tab_if_hash_in_url();
 				this._attach_resize_events();
@@ -163,9 +165,19 @@ import "./sass/v23-togglebox.sass";
 				if (boxid) {
 					var boxEl = this.itemsBox.querySelector(boxid);
 					if ( boxEl && boxEl.nodeType && boxEl.nodeType === 1 ) {
+						// ARIA: button as tab
+						btns[i].setAttribute('role', 'tab');
+						btns[i].setAttribute('aria-controls', boxEl.id);
+						if (!btns[i].id) {
+							btns[i].id = 'tab-' + boxEl.id;
+						}
+
+						// ARIA: panel
+						boxEl.setAttribute('role', 'tabpanel');
+						boxEl.setAttribute('aria-labelledby', btns[i].id);
+
 						this.items.push({ btn: btns[i], box: boxEl });
 					}
-						
 				}
 			}
 		},
@@ -196,6 +208,7 @@ import "./sass/v23-togglebox.sass";
 						if (activeTemplate === 'accordion'){
 							_toggleClass(btn, 'active');
 							_toggleClass(item, 'active');
+							btn.setAttribute('aria-expanded', _hasClass(btn, 'active') ? 'true' : 'false');
 						} else {
 							const tabButtonBehavior = this.options.tab_button_behavior || 'default';
 							if(tabButtonBehavior == 'toggle'){
@@ -205,11 +218,16 @@ import "./sass/v23-togglebox.sass";
 								_addClass(btn, 'active');
 								_addClass(item, 'active');	
 							}
+							btn.setAttribute('aria-selected', 'true');
+							btn.setAttribute('tabindex', '0');
 						}
 
 						this._maybe_scroll_to_target(btn, item);
 						this._handle_hash_in_url(btn.dataset.boxid);
-						
+
+						// Announce to screen readers
+						if (this.liveRegion) this.liveRegion.textContent = btn.textContent;
+
 						// Refresh ScrollTrigger breakpoints
 						if (typeof refreshScrollTriggerBreakpoints === 'function'){
 							refreshScrollTriggerBreakpoints();
@@ -218,18 +236,34 @@ import "./sass/v23-togglebox.sass";
 					} else {
 						_removeClass(this.items[i].btn, 'active');
 						_removeClass(item, 'active');
+						if (activeTemplate === 'tab') {
+							this.items[i].btn.setAttribute('aria-selected', 'false');
+							this.items[i].btn.setAttribute('tabindex', '-1');
+						} else {
+							this.items[i].btn.setAttribute('aria-expanded', 'false');
+						}
 					}
 				};				
 			} else { // method is triggered on init or on resize
 				for (var i = 0; i < this.items.length; i++) {
 					_removeClass(this.items[i].btn, 'active');
-					_removeClass(this.items[i].box, 'active');	
+					_removeClass(this.items[i].box, 'active');
+					if (activeTemplate === 'tab') {
+						this.items[i].btn.setAttribute('aria-selected', 'false');
+						this.items[i].btn.setAttribute('tabindex', '-1');
+					} else {
+						this.items[i].btn.setAttribute('aria-expanded', 'false');
+					}
 				};				
 
 				if (activeTemplate === 'tab') {
 					let startIndex = this.options.startIndex;
 					_addClass(this.items[startIndex]?.btn, 'active');
-					_addClass(this.items[startIndex]?.box, 'active');	
+					_addClass(this.items[startIndex]?.box, 'active');
+					if (this.items[startIndex]?.btn) {
+						this.items[startIndex].btn.setAttribute('aria-selected', 'true');
+						this.items[startIndex].btn.setAttribute('tabindex', '0');
+					}
 				}
 			}
 			if( this.options.multistep ) this._add_multistep_mode_classes();
@@ -297,6 +331,7 @@ import "./sass/v23-togglebox.sass";
 				this.el.dataset.template = template;
 				this.el.dataset.style = style;
 				this.el.dataset.animation = animation;
+				this._sync_aria_roles(template);
 				this._handle_active_class();
 				this.options.previousBreakpoint = currentBreakpoint;
 			}
@@ -415,14 +450,31 @@ import "./sass/v23-togglebox.sass";
 				var newBtn = this.items[0].btn.cloneNode(true);
 				newBtn.innerHTML = (options.btn && options.btn.content) ? options.btn.content : 'New Item';
 				newBtn.dataset.boxid = '#'+options.id;
+				if (!newBtn.id) {
+					newBtn.id = 'tab-' + options.id;
+				}
 				
 				var newBox = this.items[0].box.cloneNode(true);
 				newBox.innerHTML = (options.box && options.box.content) ? options.box.content : 'Lorem ipsum dolor sit amet consectetur...';
 				newBox.id = options.id;
+
+				// ARIA: set attributes on new items
+				if (activeTemplate === 'tab') {
+					newBtn.setAttribute('role', 'tab');
+					newBox.setAttribute('role', 'tabpanel');
+				} else {
+					newBtn.setAttribute('role', 'button');
+					newBtn.setAttribute('aria-expanded', 'false');
+				}
+				newBtn.setAttribute('aria-controls', options.id);
+				newBox.setAttribute('aria-labelledby', newBtn.id);
 				
 				if(activeTemplate == 'tab') this.nav.appendChild(newBtn);
 				if(activeTemplate == 'accordion') this.itemsBox.appendChild(newBtn);
 				this.itemsBox.appendChild(newBox);
+
+				// Re-attach click event for the new button
+				_on(newBtn, 'click', this._open_tab);
 			} else {
 				var newBtn = options.btn;
 				var newBox = options.box;
@@ -464,6 +516,66 @@ import "./sass/v23-togglebox.sass";
 					}
 				}
 				if(typeof options.afterRemoveItem == 'function') options.afterRemoveItem(deletedItem);
+			}
+		},
+		/**
+		 * A11y methods
+		 */
+		_create_live_region(){
+			this.liveRegion = document.createElement('div');
+			this.liveRegion.setAttribute('aria-live', 'polite');
+			this.liveRegion.setAttribute('aria-atomic', 'true');
+			this.liveRegion.className = 'sr-only';
+			this.el.appendChild(this.liveRegion);
+		},
+		_attach_keyboard_events(){
+			this.nav.addEventListener('keydown', this._handle_keydown);
+		},
+		_handle_keydown(event){
+			var key = event.key;
+			if (['ArrowRight','ArrowLeft','ArrowDown','ArrowUp','Home','End'].indexOf(key) === -1) return;
+
+			event.preventDefault();
+			var currentIndex = this._get_focused_btn_index();
+			var newIndex;
+
+			switch (key) {
+				case 'ArrowRight': case 'ArrowDown':
+					newIndex = (currentIndex + 1) % this.btns.length;
+					break;
+				case 'ArrowLeft': case 'ArrowUp':
+					newIndex = (currentIndex - 1 + this.btns.length) % this.btns.length;
+					break;
+				case 'Home': newIndex = 0; break;
+				case 'End': newIndex = this.btns.length - 1; break;
+			}
+
+			this.btns[newIndex].focus();
+			this.btns[newIndex].click();
+		},
+		_get_focused_btn_index(){
+			for (var i = 0; i < this.btns.length; i++) {
+				if (this.btns[i] === document.activeElement) return i;
+			}
+			return 0;
+		},
+		_sync_aria_roles(template){
+			if (template === 'tab') {
+				this.nav.setAttribute('role', 'tablist');
+				for (var i = 0; i < this.items.length; i++) {
+					this.items[i].btn.setAttribute('role', 'tab');
+					this.items[i].box.setAttribute('role', 'tabpanel');
+					this.items[i].btn.removeAttribute('aria-expanded');
+				}
+			} else if (template === 'accordion') {
+				this.nav.removeAttribute('role');
+				for (var i = 0; i < this.items.length; i++) {
+					this.items[i].btn.setAttribute('role', 'button');
+					this.items[i].box.removeAttribute('role');
+					this.items[i].box.removeAttribute('aria-labelledby');
+					var isActive = _hasClass(this.items[i].btn, 'active');
+					this.items[i].btn.setAttribute('aria-expanded', isActive ? 'true' : 'false');
+				}
 			}
 		}
 	};

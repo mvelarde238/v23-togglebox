@@ -1,7 +1,8 @@
 export default {
     'tabs-demo': {
         breakpoints: {
-            desktop: {template: 'tab', style: 'tab-style1', animation: 'fadeIn'}, // 1200px
+            desktop: {template: 'tab', style: 'tab-style1', animation: 'leftToRight'}, // 1200px
+            // desktop: {template: 'accordion', style: 'accordion-style1', animation: 'fadeIn'}, // 1200px
             // tablet: {template: 'tab', style: 'tab-style3'}, // 992px
             // mobileLandscape: {template: 'tab', style: 'tab-style5'}, // 768px
             // mobilePortrait: {template: 'tab', style: 'tab-style1'}, // 480px
