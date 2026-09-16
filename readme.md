@@ -86,6 +86,9 @@ $ pnpm run build
 
 ## Changelog
 
+10.2.1 (16-09-2026)
+- Tab-style-8 implementation
+
 10.2.0 (24-07-2026)
 - Accessibility improvements: 
 * 1.3.1 Info and Relationships: Roles ARIA tab/tabpanel/tablist

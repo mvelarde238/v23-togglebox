@@ -1,0 +1,33 @@
+.togglebox[data-style="tab-style8"]
+    --focus-offset: -2px
+
+    & > #{$tgb}__nav
+        display: flex
+        justify-content: safe center
+        border-bottom: 1px solid var(--ui-color-3)
+        margin-bottom: 15px
+        overflow-x: auto
+        overflow-y: hidden
+        
+    & > #{$tgb}__nav > #{$tgb}__btn
+        display: block
+        padding: 15px
+        cursor: pointer
+        line-height: 1
+        &.active, &:hover
+            color: var(--ui-color-1)
+        &:not(:last-child)
+            border-right: 1px solid var(--ui-color-3)
+        &.active
+            position: relative
+            &:after
+                content: ''
+                position: absolute
+                bottom: -1px
+                left: 0
+                width: 100%
+                height: 3px
+                background-color: var(--ui-color-1)
+
+    & > #{$tgb}__nav > #{$tgb}__btn > #{$tgb}__title
+        font-weight: var(--bold-font-weight)

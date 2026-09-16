@@ -3,9 +3,21 @@ export default {
     <h1>V23 ToggleBox Demo</h1>
     <div id="demo" class="togglebox">				
         <div class="togglebox__nav">
-			<button type="button" class="togglebox__btn" data-boxid="#box1">Primer Item</button>
-            <button type="button" class="togglebox__btn" data-boxid="#box2"><i>Segundo Item</i></button>
-            <button type="button" class="togglebox__btn" data-boxid="#box3">Tercer Item</button>
+			<button type="button" class="togglebox__btn" data-boxid="#box1">
+                <i class="togglebox__icon">☘</i>
+                <span class="togglebox__title">First Item</span>
+                <span class="togglebox__subtitle">This is a subtitle</span>
+            </button>
+            <button type="button" class="togglebox__btn" data-boxid="#box2">
+                <i class="togglebox__icon">☘</i>
+                <span class="togglebox__title">Second Item</span>
+                <span class="togglebox__subtitle">This is a subtitle</span>
+            </button>
+            <button type="button" class="togglebox__btn" data-boxid="#box3">
+                <i class="togglebox__icon">☘</i>
+                <span class="togglebox__title">Third Item</span>
+                <span class="togglebox__subtitle">This is a subtitle</span>
+            </button>
         </div>
 		<div class="togglebox__items">
 			<div id="box1" class="togglebox__item">
