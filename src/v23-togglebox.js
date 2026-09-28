@@ -23,7 +23,7 @@ import "./sass/v23-togglebox.sass";
 	"use strict";
 
 	var instances = [],
-		version = '10.2.0',
+		version = '10.2.2',
 		timers = {};
 
 	/**
@@ -224,6 +224,7 @@ import "./sass/v23-togglebox.sass";
 
 						this._maybe_scroll_to_target(btn, item);
 						this._handle_hash_in_url(btn.dataset.boxid);
+						this._maybe_reflow_map_size(item);
 
 						// Announce to screen readers
 						if (this.liveRegion) this.liveRegion.textContent = btn.textContent;
@@ -518,6 +519,17 @@ import "./sass/v23-togglebox.sass";
 				if(typeof options.afterRemoveItem == 'function') options.afterRemoveItem(deletedItem);
 			}
 		},
+		_maybe_reflow_map_size(el){
+            var maps = el.getElementsByClassName('map-component__map');
+            for (var i = 0; i < maps.length; i++) {
+                let map = maps[i].mapObject,
+                    provider = maps[i].dataset.provider;
+
+                if( provider == 'google' ) google.maps.event.trigger(map, 'resize');
+
+                if( provider == 'leaflet' ) map.invalidateSize(false);
+            }
+        },
 		/**
 		 * A11y methods
 		 */

@@ -86,6 +86,9 @@ $ pnpm run build
 
 ## Changelog
 
+10.2.2 (28-09-2026)
+- Maybe reflow map size when template changes (for Google Maps and Leaflet)
+
 10.2.1 (16-09-2026)
 - Tab-style-8 implementation
 
