@@ -26,7 +26,15 @@
         &.active, &:hover
             background-color: var(--ui-color-3)
         &.active
-            border-bottom: 3px solid var(--ui-color-1)
+            position: relative
+            &:after
+                content: ''
+                position: absolute
+                bottom: 0
+                left: 0
+                height: 3px
+                width: 100%
+                background-color: var(--ui-color-1)
 
     & > #{$tgb}__nav > #{$tgb}__btn > #{$tgb}__title
         display: block

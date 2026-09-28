@@ -27,14 +27,13 @@
         &.active, &:hover
             background-color: var(--ui-color-3)
         &.active:after
-            content: "\F231"
-            font-family: 'bootstrap-icons' !important
-            line-height: 100%
+            content: ''
             position: absolute
-            top: 15px
+            bottom: 0
             right: 0
-            color: var(--ui-color-1)
-            transform: translateX(100%)
+            height: 100%
+            width: 3px
+            background-color: var(--ui-color-1)
         
     & > #{$tgb}__nav > #{$tgb}__btn > #{$tgb}__title
         font-weight: var(--bold-font-weight)

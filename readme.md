@@ -88,6 +88,7 @@ $ pnpm run build
 
 10.2.2 (28-09-2026)
 - Maybe reflow map size when template changes (for Google Maps and Leaflet)
+- Pseudo-element for active tab button indicator on tab style 2 and tab style 1
 
 10.2.1 (16-09-2026)
 - Tab-style-8 implementation
