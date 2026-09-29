@@ -86,6 +86,9 @@ $ pnpm run build
 
 ## Changelog
 
+10.2.3 (29-09-2026)
+- Fix _maybe_scroll_to_target() to ensure proper scrolling behavior
+
 10.2.2 (28-09-2026)
 - Maybe reflow map size when template changes (for Google Maps and Leaflet)
 - Pseudo-element for active tab button indicator on tab style 2 and tab style 1

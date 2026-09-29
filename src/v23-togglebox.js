@@ -23,7 +23,7 @@ import "./sass/v23-togglebox.sass";
 	"use strict";
 
 	var instances = [],
-		version = '10.2.2',
+		version = '10.2.3',
 		timers = {};
 
 	/**
@@ -63,11 +63,13 @@ import "./sass/v23-togglebox.sass";
 				this._attach_click_events();
 				this._attach_keyboard_events();
 				this._handle_template();
+
+				// must run before any click-triggered scroll calc (e.g. hash-triggered click below)
+				_addClass(this.el, 'togglebox-initialized');
+
 				this._change_active_tab_if_hash_in_url();
 				this._attach_resize_events();
 				this._attach_hash_change_events();
-	
-				_addClass(this.el, 'togglebox-initialized');
 			}, this.options.delay);
 		}
 	};
@@ -222,7 +224,6 @@ import "./sass/v23-togglebox.sass";
 							btn.setAttribute('tabindex', '0');
 						}
 
-						this._maybe_scroll_to_target(btn, item);
 						this._handle_hash_in_url(btn.dataset.boxid);
 						this._maybe_reflow_map_size(item);
 
@@ -244,7 +245,7 @@ import "./sass/v23-togglebox.sass";
 							this.items[i].btn.setAttribute('aria-expanded', 'false');
 						}
 					}
-				};				
+				};	
 			} else { // method is triggered on init or on resize
 				for (var i = 0; i < this.items.length; i++) {
 					_removeClass(this.items[i].btn, 'active');
@@ -268,6 +269,9 @@ import "./sass/v23-togglebox.sass";
 				}
 			}
 			if( this.options.multistep ) this._add_multistep_mode_classes();
+
+			// run after the template reached its final state (all items closed for accordion, multistep classes applied)
+			if (btn) this._maybe_scroll_to_target();
 		},
 		_add_multistep_mode_classes(){
 			let foundActive = false;
@@ -386,13 +390,18 @@ import "./sass/v23-togglebox.sass";
 				}, timeToWaitForLast, id);
 			}, true);
 		},
-		_maybe_scroll_to_target(btn, item){
+		_maybe_scroll_to_target(){
 			const currentBreakpoint = this._get_current_breakpoint();
 			var breakpointScrollTarget = '';
 			if(this.options && this.options.breakpoints && this.options.breakpoints[currentBreakpoint]){
 				breakpointScrollTarget = this.options.breakpoints[currentBreakpoint].scroll_target || '';
 			}
 			if(breakpointScrollTarget){
+				// derive the current target from DOM state instead of relying on caller-provided refs
+				var btn = this.el.querySelector('.togglebox__btn.active');
+				if(!btn) return;
+				var item = this.el.querySelector( btn.dataset.boxid );
+
 				var scrollTarget = null;
 				switch (breakpointScrollTarget) {
 					case 'component':
