@@ -7,12 +7,12 @@
 
 <div id="elementID" class="togglebox">
 	<div class="togglebox__nav" role="tablist">
-		<button class="togglebox__btn" data-boxid="#boxID"
+		<button class="togglebox__btn" data-item-uuid="item-uuid-1"
 			role="tab" aria-selected="true" aria-controls="boxID">...</button>
 		...
 	</div>
 	<div class="togglebox__items">
-		<div id="boxID" class="togglebox__item"
+		<div id="boxID" class="togglebox__item" data-uuid="item-uuid-1"
 			role="tabpanel" aria-labelledby="tab-boxID">...</div>
 		...
 	</div>
@@ -20,6 +20,8 @@
 ```
 
 > **Note:** The component automatically manages ARIA attributes (`role`, `aria-selected`, `aria-expanded`, `aria-controls`, `aria-labelledby`) and keyboard navigation (Arrow keys, Home, End). Buttons should be `<button>` elements or elements with `role="button"`. If buttons have no `id`, the library generates one with the `tab-` prefix.
+>
+> **Breaking change:** Each `.togglebox__btn` must use `data-item-uuid`, and its matching `.togglebox__item` must use the same value in `data-uuid`. The previous `data-boxid` attribute is not supported.
 
 ### JS
 ```js
@@ -85,6 +87,9 @@ $ pnpm run build
 ```
 
 ## Changelog
+
+10.2.5 (21-10-2026)
+- Replace `data-boxid` with the UUID-based `data-item-uuid` and `data-uuid` relationship.
 
 10.2.4 (30-09-2026)
 - Removed _insertAfter(), addItem() and removeItem() functions from the library

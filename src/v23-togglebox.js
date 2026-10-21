@@ -23,7 +23,7 @@ import "./sass/v23-togglebox.sass";
 	"use strict";
 
 	var instances = [],
-		version = '10.2.3',
+		version = '10.2.5',
 		timers = {};
 
 	/**
@@ -162,11 +162,15 @@ import "./sass/v23-togglebox.sass";
 			var btns = this.nav.getElementsByClassName('togglebox__btn');
 			this.btns = btns;
 			for (var i = 0; i < btns.length; i++) {
-				var boxid = btns[i].dataset.boxid;
+				var itemUuid = btns[i].dataset.itemUuid;
 
-				if (boxid) {
-					var boxEl = this.itemsBox.querySelector(boxid);
-					if ( boxEl && boxEl.nodeType && boxEl.nodeType === 1 ) {
+				if (itemUuid) {
+					var boxEls = this.itemsBox.getElementsByClassName('togglebox__item'),
+						boxEl = Array.prototype.find.call(boxEls, item => item.dataset.uuid === itemUuid);
+
+					if (boxEl && boxEl.nodeType === 1) {
+						if (!boxEl.id) boxEl.id = 'item-' + itemUuid;
+
 						// ARIA: button as tab
 						btns[i].setAttribute('role', 'tab');
 						btns[i].setAttribute('aria-controls', boxEl.id);
@@ -177,7 +181,6 @@ import "./sass/v23-togglebox.sass";
 						// ARIA: panel
 						boxEl.setAttribute('role', 'tabpanel');
 						boxEl.setAttribute('aria-labelledby', btns[i].id);
-
 						this.items.push({ btn: btns[i], box: boxEl });
 					}
 				}
@@ -204,9 +207,9 @@ import "./sass/v23-togglebox.sass";
 				
 			if (btn) { // method is triggered by a user click event
 				for (var i = 0; i < this.items.length; i++) {
-					let item = this.el.querySelector( this.items[i].btn.dataset.boxid );
+					let item = this.items[i].box;
 
-					if ( this.items[i].btn.dataset.boxid === btn.dataset.boxid ) {
+					if ( this.items[i].btn.dataset.itemUuid === btn.dataset.itemUuid ) {
 						if (activeTemplate === 'accordion'){
 							_toggleClass(btn, 'active');
 							_toggleClass(item, 'active');
@@ -224,7 +227,7 @@ import "./sass/v23-togglebox.sass";
 							btn.setAttribute('tabindex', '0');
 						}
 
-						this._handle_hash_in_url(btn.dataset.boxid);
+						this._handle_hash_in_url('#' + item.id);
 						this._maybe_reflow_map_size(item);
 
 						// Announce to screen readers
@@ -290,10 +293,10 @@ import "./sass/v23-togglebox.sass";
   			};
 		},
 		_go_to_step(ev){
-			const boxID = ev.target.dataset.boxid;
-			if(boxID){
-				const togglebox_btn = this.el.querySelector('.togglebox__btn[data-boxid="'+boxID+'"]');
-				if( togglebox_btn ) togglebox_btn.click();
+			const itemUuid = ev.currentTarget.dataset.itemUuid;
+			if(itemUuid){
+				const item = this.items.find(item => item.btn.dataset.itemUuid === itemUuid);
+				if (item) item.btn.click();
 			}
 		},
 		_handle_hash_in_url(hash = ''){
@@ -314,7 +317,7 @@ import "./sass/v23-togglebox.sass";
             	var hash = window.location.hash.substring(1); //Puts hash in variable, and removes the # character
             	var cleaned_hash = _cleanHash(hash);
             	for (var i = 0; i < this.items.length; i++) {
-					if ( this.items[i].box.id === cleaned_hash ) this.items[i].btn.click();
+					if ( this.items[i].box.id === cleaned_hash || this.items[i].box.dataset.uuid === cleaned_hash ) this.items[i].btn.click();
 				}
     	    } 
 		},
@@ -400,7 +403,8 @@ import "./sass/v23-togglebox.sass";
 				// derive the current target from DOM state instead of relying on caller-provided refs
 				var btn = this.el.querySelector('.togglebox__btn.active');
 				if(!btn) return;
-				var item = this.el.querySelector( btn.dataset.boxid );
+				var activeItem = this.items.find(item => item.btn === btn);
+				var item = activeItem && activeItem.box;
 
 				var scrollTarget = null;
 				switch (breakpointScrollTarget) {
