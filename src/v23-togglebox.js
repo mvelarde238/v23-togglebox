@@ -435,99 +435,6 @@ import "./sass/v23-togglebox.sass";
 				}
 			}
 		},
-		/**
-	 	* Add a New Item
-	 	* @param {Object}      [options]
-		* {
-		* id:           (required) (string)
-		* btn:          (optional) (obj) { content:`` }
-		* box:          (optional) (obj) { content:`` }
-		* setActive:    (optional) (bool)
-		* afterAddItem: (optional) (function)
-		* silent:       (optional) (bool) if true there is not cloning neither adding operations
-		*                                 useful when working with models that render the view themselves
-		*                                 btn: (required) (DOMElement)
-		*                                 box: (required) (DOMElement)
-		* }
-	 	*/
-		addItem(options){
-			if(!options.silent){
-				if(options.id === undefined) return;
-
-				const currentBreakpoint = this._get_current_breakpoint(),
-					activeTemplate = this.options.breakpoints[currentBreakpoint].template;
-
-				var newBtn = this.items[0].btn.cloneNode(true);
-				newBtn.innerHTML = (options.btn && options.btn.content) ? options.btn.content : 'New Item';
-				newBtn.dataset.boxid = '#'+options.id;
-				if (!newBtn.id) {
-					newBtn.id = 'tab-' + options.id;
-				}
-				
-				var newBox = this.items[0].box.cloneNode(true);
-				newBox.innerHTML = (options.box && options.box.content) ? options.box.content : 'Lorem ipsum dolor sit amet consectetur...';
-				newBox.id = options.id;
-
-				// ARIA: set attributes on new items
-				if (activeTemplate === 'tab') {
-					newBtn.setAttribute('role', 'tab');
-					newBox.setAttribute('role', 'tabpanel');
-				} else {
-					newBtn.setAttribute('role', 'button');
-					newBtn.setAttribute('aria-expanded', 'false');
-				}
-				newBtn.setAttribute('aria-controls', options.id);
-				newBox.setAttribute('aria-labelledby', newBtn.id);
-				
-				if(activeTemplate == 'tab') this.nav.appendChild(newBtn);
-				if(activeTemplate == 'accordion') this.itemsBox.appendChild(newBtn);
-				this.itemsBox.appendChild(newBox);
-
-				// Re-attach click event for the new button
-				_on(newBtn, 'click', this._open_tab);
-			} else {
-				var newBtn = options.btn;
-				var newBox = options.box;
-			}
-
-			this.items.push({ btn: newBtn, box: newBox });
-			if(options.setActive) this._handle_active_class(newBtn);
-			if(typeof options.afterAddItem == 'function') options.afterAddItem(newBtn,newBox);
-		},
-		/**
-	 	* Remove Item
-	 	* @param {Object}      [options]
-		* {
-		* index:           (required) (integer) index of item to be removed
-		* setActive:       (optional) (integer) index of item to be set as active
-		* afterRemoveItem: (optional) (function)
-		* silent:          (optional) (bool) if true there is not removing operations
-		*                                 useful when working with models that manage the view themselves
-		* }
-	 	*/
-		removeItem(options){
-			var index = options.index;
-			if(index <= this.items.length && this.items.length > 1 && index >= 0){
-				if(!options.silent){
-					this.items[index].btn.remove();
-					this.items[index].box.remove();
-				}
-				var deletedItem = this.items.splice(index, 1);
-				
-				if(options.setActive != undefined){
-					if(options.setActive >= 0 && options.setActive <= this.items.length){
-						this.items[options.setActive].btn.click();
-					}
-				} else {
-					const currentBreakpoint = this._get_current_breakpoint(),
-						activeTemplate = this.options.breakpoints[currentBreakpoint].template;
-					if(activeTemplate == 'tab' && _hasClass(deletedItem[0].btn,'active')){
-						this.items[(this.items.length - 1)].btn.click();
-					}
-				}
-				if(typeof options.afterRemoveItem == 'function') options.afterRemoveItem(deletedItem);
-			}
-		},
 		_maybe_reflow_map_size(el){
             var maps = el.getElementsByClassName('map-component__map');
             for (var i = 0; i < maps.length; i++) {
@@ -669,10 +576,6 @@ import "./sass/v23-togglebox.sass";
 		    result = hash.substr(0, index);
 		}
 		return result;
-	};
-
-	function _insertAfter(newNode, referenceNode) {
-    	referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
 	};
 
 	function _insertBefore(newNode, referenceNode) {

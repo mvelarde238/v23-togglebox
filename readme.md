@@ -86,6 +86,9 @@ $ pnpm run build
 
 ## Changelog
 
+10.2.4 (30-09-2026)
+- Removed _insertAfter(), addItem() and removeItem() functions from the library
+
 10.2.3 (29-09-2026)
 - Fix _maybe_scroll_to_target() to ensure proper scrolling behavior
 
