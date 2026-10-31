@@ -88,6 +88,9 @@ $ pnpm run build
 
 ## Changelog
 
+10.2.6 (22-10-2026)
+- Replace `$()` with `jQuery()` for better compatibility with jQuery environments.
+
 10.2.5 (21-10-2026)
 - Replace `data-boxid` with the UUID-based `data-item-uuid` and `data-uuid` relationship.
 

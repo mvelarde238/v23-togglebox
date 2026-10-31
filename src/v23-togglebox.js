@@ -23,7 +23,7 @@ import "./sass/v23-togglebox.sass";
 	"use strict";
 
 	var instances = [],
-		version = '10.2.5',
+		version = '10.2.6',
 		timers = {};
 
 	/**
@@ -409,16 +409,16 @@ import "./sass/v23-togglebox.sass";
 				var scrollTarget = null;
 				switch (breakpointScrollTarget) {
 					case 'component':
-						scrollTarget = $(this.el);
+						scrollTarget = jQuery(this.el);
 						break;
 					case 'item':
-						scrollTarget = $(item);
+						scrollTarget = jQuery(item);
 						break;
 					case 'button':
-						scrollTarget = $(btn);
+						scrollTarget = jQuery(btn);
 						break;
 					default:
-						scrollTarget = $(btn);
+						scrollTarget = jQuery(btn);
 						break;
 				}
 				if( scrollTarget.length ){
@@ -430,7 +430,7 @@ import "./sass/v23-togglebox.sass";
 						scrollTargetPosition = scrollTargetPosition - parseInt(sticky_header_height);
 					}
 
-					$("html, body").animate({ scrollTop: scrollTargetPosition }, 
+					jQuery("html, body").animate({ scrollTop: scrollTargetPosition }, 
 						{ 
 							duration: 800,
 							queue: false
